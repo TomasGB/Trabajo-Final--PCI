@@ -5,72 +5,132 @@ program test;
 uses
   SysUtils;
 
-type
-    TPTrieNode = ^TrieNode;
-    TrieNode = record
-                    letra:string;
-                    FDP:boolean; //fin de palabra
-                    hijos, hermanos: TPTrieNode;
+type TPnodo = ^ Tnodo;
+     subtrie = record
+                letra:char;
+                hijos:TPnodo ;
                 end;
+     Tnodo = record
+               IsEndOfWord :boolean;
+               hijo:subtrie;
+            end;
+var palabra: string;
 
-var Raiz,hijo,inicio: TPTrieNode;
-    palabra, palabra2: string;
 
-{procedure InsertarNodo(l:string; var raiz,hijo:TPTrieNode);
+
+procedure insertarPalabra(p:string; raiz:TPnodo);
+var i,j,k:integer;
+    nuevoNodo,inicial: TPnodo;
+
+
 begin
-new(hijo);
-hijo^.hijos:=nil;
-hijo^.letra:=l;
-raiz^.hijos:=hijo;
-end;}
+inicial:=raiz;
+j:=length(p);
 
-procedure InsertarPalabra(p:string;raiz:TPTrieNode);
-var i,j:integer;
-    l:string;
+if raiz^.hijo.hijos = nil then
 begin
-    j:=length(palabra);
-
+    {Caso que el arbol este vacio}
     for i:=1 to j do
     begin
-         l:= palabra[i];
-         new(hijo);
-         hijo^.hijos:=nil;
-         hijo^.letra:=l;
-
-         while (raiz^.hijos<>nil) do
-            begin
-                raiz:=raiz^.hijos;
-                if raiz^.letra <> l then
+       //crea el nuevo nodo
+       new(nuevoNodo);
+       nuevoNodo^.hijo.hijos:=nil;
+       nuevoNodo^.hijo.letra:=p[i];
+       //lo conecta
+       raiz^.hijo.hijos:=nuevoNodo;
+       raiz:=raiz^.hijo.hijos;
+       write(raiz^.hijo.letra);
+    end;
+    raiz^.IsEndOfWord:=true;
+    writeln('');
+    writeln('FDP:',raiz^.IsEndOfWord,' ',raiz^.hijo.letra);
+    raiz:=inicial;
+    writeln('FDP:',raiz^.IsEndOfWord,' ',raiz^.hijo.hijos^.hijo.letra);
+end
+else
+    {ya tenga palabras}
+    begin
+        for i:=1 to j do
+        begin
+            if (raiz^.hijo.letra = p[i]) and (raiz^.hijo.hijos <> nil)  then
+                raiz:=raiz^.hijo.hijos
+            else
                 begin
-                    raiz^.hermanos:=hijo;
-                    raiz^.hijos:=raiz^.hermanos;
+                    //crea el nuevo nodo
+                    new(nuevoNodo);
+                    nuevoNodo^.hijo.hijos:=nil;
+                    nuevoNodo^.hijo.letra:=p[i];
+                    //lo conecta
+                    raiz^.hijo.hijos:=nuevoNodo;
+                    raiz:=raiz^.hijo.hijos;
+                    write(raiz^.hijo.letra);
                 end;
 
-
-         raiz^.hijos:=hijo;
-         writeln(raiz^.letra);
-         end;
     end;
-    writeln(raiz^.hijos^.letra);
-    raiz^.FDP:=True;
-    //writeln(raiz^.hijos^.letra);
-    writeln('termino el for');
-    //raiz:=inicio;
+    raiz^.IsEndOfWord:=true;
+    writeln('');
+    writeln('FDP:',raiz^.IsEndOfWord,' ',raiz^.hijo.letra);
+    raiz:=inicial;
+    writeln('FDP:',raiz^.IsEndOfWord,' ',raiz^.hijo.hijos^.hijo.letra);
+end;
 end;
 
+procedure printTrie(espacio:integer;raiz:TPnodo);
+begin
+    while raiz^.hijo.hijos <> nil do
+    begin
+        if raiz^.isendofword = true then
+        begin
+            write(raiz^.hijo.hijos^.hijo.letra);
+            raiz:= raiz^.hijo.hijos;
+        end
+        else
+            begin
+                write(raiz^.hijo.hijos^.hijo.letra);
+                raiz:= raiz^.hijo.hijos;
+            end;
+
+    end;
+
+end;
+
+//--------------------programa ppal-----------------------
+
+var raiz:tpnodo;
+    p,h,i,j,k,l,m,n:string;
 begin
   { TODO -oUser -cConsole Main : Insert code here }
-palabra:='perrera';
+
 new(raiz);
-InsertarPalabra(palabra, raiz);
-palabra2:= 'perro';
-InsertarPalabra(palabra2, raiz);
-while raiz^.hijos <> nil do
-begin
-    writeln(raiz^.letra);
-    raiz:=raiz^.hijos;
-end;
-writeln(raiz^.letra);
+p:='perro';
+insertarPalabra(p, raiz);
+writeln('--------------------------------');
+h:='pera';
+insertarPalabra(h, raiz);
+writeln('--------------------------------');
+i:='perenne';
+insertarPalabra(i, raiz);
+{writeln('--------------------------------');
+j:='arbol';
+insertarPalabra(j, raiz);
+writeln('--------------------------------');
+k:='arboleda';
+insertarPalabra(k, raiz);
+writeln('--------------------------------');
+l:='12345';
+insertarPalabra(l,raiz);
+writeln('--------------------------------');
+m:='1233';
+insertarPalabra(m,raiz);
+writeln('--------------------------------');
+n:='1533';
+insertarPalabra(n,raiz); }
+writeln('--------------------------------');
+
+printTrie(1,raiz);
+
+
+
 
 readln;
 
