@@ -17,7 +17,7 @@ type
 
     TTrie = TPnodo;
 
-var raiz:TTrie;
+//var raiz:TTrie;
 
 
 procedure inicializarTrie(var raiz:TTrie);
@@ -69,7 +69,7 @@ begin
 end;
 
 function BuscarPalabra(palabra:String;raiz:TTrie):Boolean;
-var i,long,pos,indice:integer;
+var i,long,indice:integer;
     bool:boolean;
 
 begin
@@ -89,34 +89,33 @@ end;
 ///////////////////////////////////////////////////////////////////////////////
 
 procedure MostrarTrie(pref:string;raiz:TTrie);
-var i,j,k,long:integer;
-    p,acum:String;
+var i,j,long,pos:integer;
+    p:String;
+    trie2:TTrie;
 begin
     for i:=1 to letras do
     begin
-
         if raiz^.hijos[i] <> nil then
         begin
-
             p:=pref+chr(ord(i+96));
             MostrarTrie(p,raiz^.hijos[i]);
-
-            if raiz^.hijos[i]^.FDP = true then
+            if (raiz^.hijos[i].FDP = true)then
             begin
-                Write(p);
+                Write(p,'  ',raiz^.hijos[i]^.FDP);
                 writeln('');
+                //p:='';
             end;
+
         end;
     end;
 
 end;
 
 
-
 var r:TTrie;
-    p:String;
-    j:integer;
-    a,b,c,d,e:boolean;
+//    p:String;
+    //j:integer;
+    a,b,c{,d,e,f}:boolean;
 
 begin
 //for j:=1 to 27 do write(', ',ord(char(96+j))-96);
@@ -129,11 +128,18 @@ InsertarPalabra('pero',r);
 writeln('se inserto, pero');
 InsertarPalabra('perenne',r);
 writeln('se inserto, perenne');
-InsertarPalabra('perrera',r);
-writeln('se inserto, perrera');
+InsertarPalabra('perra',r);
+writeln('se inserto, perra');
 InsertarPalabra('hola',r);
 writeln('se inserto, hola');
-
+InsertarPalabra('holanda',r);
+writeln('se inserto, holanda');
+InsertarPalabra('holandes',r);
+writeln('se inserto, holandes');
+InsertarPalabra('parapente',r);
+writeln('se inserto, parapente');
+InsertarPalabra('tomas',r);
+writeln('se inserto, tomas');
 writeln('---------');
 
 a:=BuscarPalabra('perro',r);
@@ -142,10 +148,13 @@ b:=BuscarPalabra('pero',r);
 writeln('esta (pero) en el trie: ',b);
 c:=BuscarPalabra('perenne',r);
 writeln('esta (perenne) en el trie: ',c);
+{d:=BuscarPalabra('holi',r);
+writeln('esta (holi) en el trie: ',d);
 e:=BuscarPalabra('hola',r);
 writeln('esta (hola) en el trie: ',e);
-d:=BuscarPalabra('holi',r);
-writeln('esta (holi) en el trie: ',d);
+f:=BuscarPalabra('holanda',r);
+writeln('esta (holanda) en el trie: ',f);}
+
 
 writeln('---------');
 
