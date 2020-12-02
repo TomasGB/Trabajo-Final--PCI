@@ -87,11 +87,11 @@ begin
     BuscarPalabra:=bool;
 end;
 ///////////////////////////////////////////////////////////////////////////////
+{Falta sacar el backtrack}
 
 procedure MostrarTrie(pref:string;raiz:TTrie);
-var i,j,long,pos:integer;
+var i:integer;
     p:String;
-    trie2:TTrie;
 begin
     for i:=1 to letras do
     begin
@@ -103,19 +103,37 @@ begin
             begin
                 Write(p,'  ',raiz^.hijos[i]^.FDP);
                 writeln('');
-                //p:='';
             end;
 
         end;
     end;
 
 end;
+////////////////////////////////////////////////////
+procedure BuscarPorPref(pref:string;raiz:TTrie);
+var long,i:integer;
+    check:boolean;
+begin
+    long:= length(pref);
+    check:=True;
+    for i:=1 to long do
+    begin
+        if raiz^.hijos[ord(pref[i])-96] = nil then
+            begin
+                check:=False;
+
+            end
+        else raiz:=raiz^.hijos[ord(pref[i])-96] end;
+
+    if check = True then mostrarTrie(pref,raiz)
+    else writeln('no existe la palabra: ',pref);
+end;
 
 
+
+//variables globales
 var r:TTrie;
-//    p:String;
-    //j:integer;
-    a,b,c{,d,e,f}:boolean;
+a,b,c{,d,e,f}:boolean;
 
 begin
 //for j:=1 to 27 do write(', ',ord(char(96+j))-96);
@@ -148,20 +166,22 @@ b:=BuscarPalabra('pero',r);
 writeln('esta (pero) en el trie: ',b);
 c:=BuscarPalabra('perenne',r);
 writeln('esta (perenne) en el trie: ',c);
-{d:=BuscarPalabra('holi',r);
-writeln('esta (holi) en el trie: ',d);
-e:=BuscarPalabra('hola',r);
-writeln('esta (hola) en el trie: ',e);
-f:=BuscarPalabra('holanda',r);
-writeln('esta (holanda) en el trie: ',f);}
-
 
 writeln('---------');
-
+writeln('Trie entero');
+writeln('');
 mostrarTrie('',r);
+writeln('---------');
+writeln('Buscar por pref');
+writeln('');
+BuscarPorPref('ho',r);
 
+writeln('---------');
+writeln('Buscar por pref, cuando no hay palabra');
+writeln('');
+BuscarPorPref('sau',r);
 readln;
 
 
-//readln;
+
 end.
