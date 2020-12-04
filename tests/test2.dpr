@@ -118,11 +118,7 @@ begin
     check:=True;
     for i:=1 to long do
     begin
-        if raiz^.hijos[ord(pref[i])-96] = nil then
-            begin
-                check:=False;
-
-            end
+        if raiz^.hijos[ord(pref[i])-96] = nil then check:=False
         else raiz:=raiz^.hijos[ord(pref[i])-96] end;
 
     if check = True then mostrarTrie(pref,raiz)
@@ -179,7 +175,7 @@ BuscarPorPref('ho',r);
 writeln('---------');
 writeln('Buscar por pref, cuando no hay palabra');
 writeln('');
-BuscarPorPref('sau',r);
+BuscarPorPref('ja',r);
 readln;
 
 

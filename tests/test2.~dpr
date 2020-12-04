@@ -121,11 +121,12 @@ begin
         if raiz^.hijos[ord(pref[i])-96] = nil then
             begin
                 check:=False;
-                writeln('no existe la palabra: ',pref);
+
             end
         else raiz:=raiz^.hijos[ord(pref[i])-96] end;
 
-    if check = True then mostrarTrie(pref,raiz);
+    if check = True then mostrarTrie(pref,raiz)
+    else writeln('no existe la palabra: ',pref);
 end;
 
 
@@ -165,22 +166,22 @@ b:=BuscarPalabra('pero',r);
 writeln('esta (pero) en el trie: ',b);
 c:=BuscarPalabra('perenne',r);
 writeln('esta (perenne) en el trie: ',c);
-{d:=BuscarPalabra('holi',r);
-writeln('esta (holi) en el trie: ',d);
-e:=BuscarPalabra('hola',r);
-writeln('esta (hola) en el trie: ',e);
-f:=BuscarPalabra('holanda',r);
-writeln('esta (holanda) en el trie: ',f);}
-
 
 writeln('---------');
-
+writeln('Trie entero');
+writeln('');
 mostrarTrie('',r);
 writeln('---------');
+writeln('Buscar por pref');
+writeln('');
+BuscarPorPref('ho',r);
+
+writeln('---------');
+writeln('Buscar por pref, cuando no hay palabra');
+writeln('');
+BuscarPorPref('sau',r);
 readln;
 
-BuscarPorPref('perr',r);
-readln;
 
 
 end.
