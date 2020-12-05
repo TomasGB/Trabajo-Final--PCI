@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls;
 
-const LETRAS =26; //sin contar la ñ
+const LETRAS =27; //sin contar la ñ, 27 es para el espacio
 
 type
      TPnodo = ^Tnodo;

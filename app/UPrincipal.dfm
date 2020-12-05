@@ -1,8 +1,8 @@
 object Form1: TForm1
-  Left = 880
-  Top = 129
-  Width = 306
-  Height = 450
+  Left = 552
+  Top = 116
+  Width = 706
+  Height = 568
   Caption = 'Form1'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,22 +17,33 @@ object Form1: TForm1
   object Edit1: TEdit
     Left = 16
     Top = 32
-    Width = 257
+    Width = 625
     Height = 21
     TabOrder = 0
   end
   object Memo1: TMemo
     Left = 16
-    Top = 80
-    Width = 257
-    Height = 217
+    Top = 64
+    Width = 625
+    Height = 329
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
     Lines.Strings = (
       'Memo1')
+    ParentFont = False
+    ParentShowHint = False
+    ReadOnly = True
+    ScrollBars = ssVertical
+    ShowHint = False
     TabOrder = 1
+    WordWrap = False
   end
   object btnMostrarDiccionario: TButton
-    Left = 24
-    Top = 320
+    Left = 208
+    Top = 408
     Width = 89
     Height = 41
     Caption = 'Mostrar diccionario'
@@ -40,8 +51,8 @@ object Form1: TForm1
     WordWrap = True
   end
   object btnAgregarAlDiccionario: TButton
-    Left = 168
-    Top = 320
+    Left = 352
+    Top = 408
     Width = 89
     Height = 41
     Caption = 'Agregar al diccionario'
@@ -51,11 +62,11 @@ object Form1: TForm1
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
-    Left = 8
-    Top = 376
+    Left = 192
+    Top = 464
   end
   object OpenDialog1: TOpenDialog
-    Left = 48
-    Top = 376
+    Left = 232
+    Top = 464
   end
 end

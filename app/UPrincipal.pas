@@ -46,13 +46,13 @@ begin
         if raiz^.hijos[i] <> nil then
         begin
             p:=pref+chr(ord(i+96));
-            MostrarTrie(p,raiz^.hijos[i],memo);
+
             if (raiz^.hijos[i].FDP = true)then
             begin
                 memo.lines.add(p);
                 memo.lines.add('');
             end;
-
+            MostrarTrie(p,raiz^.hijos[i],memo);
         end;
     end;
 
@@ -83,7 +83,7 @@ procedure TForm1.Timer1Timer(Sender: TObject);
 begin
     memo1.clear;
     Timer1.Enabled := True;
-    Timer1.Interval := 100;
+    Timer1.Interval := 500;
 
     if edit1.text <> '' then BuscarPorPref(edit1.text,raiz,memo1);
 
@@ -94,7 +94,7 @@ var esta:boolean;
 begin
 esta:= BuscarPalabra(edit1.Text,raiz);
 
-if esta then showMessage('Esta palabra ya esta en el diccionario')//nada
+if esta then showMessage('Esta palabra ya esta en el diccionario')
 else
     begin
     InsertarPalabra(edit1.text,raiz);
