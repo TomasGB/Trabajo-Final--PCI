@@ -67,6 +67,8 @@ begin
           if raiz^.hijos[indice] = nil then bool:=False
           else
             begin
+                if palabra[i]= ' ' then raiz:=raiz^.hijos[27]
+                else
                 raiz:=raiz^.hijos[indice];
             end;
     end;
