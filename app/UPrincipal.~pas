@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, UNodo;
+  Dialogs, StdCtrls,UTrie, UNodo, ExtCtrls;
 
 type
   TForm1 = class(TForm)
@@ -12,7 +12,11 @@ type
     Memo1: TMemo;
     btnMostrarDiccionario: TButton;
     btnAgregarAlDiccionario: TButton;
-    TTrie = TPnodo;
+    Timer1: TTimer;
+    OpenDialog1: TOpenDialog;
+    procedure Timer1Timer(Sender: TObject);
+    procedure btnAgregarAlDiccionarioClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
 
   private
     { Private declarations }
@@ -22,68 +26,14 @@ type
 
 var
   Form1: TForm1;
+  raiz:TTrie;
+  lista:Tstringlist;
+
 
 implementation
 
 {$R *.dfm}
 
-procedure inicializarTrie(var raiz:TTrie);
-var i:Integer;
-begin
-    new(raiz);
-    for i:=1 to LETRAS do
-      begin
-            raiz^.FDP:=False;
-            raiz^.hijos[i]:=Nil;
-      end;
-end;
-
-procedure InsertarPalabra(palabra:String;raiz:TTrie);
-var i,long,pos:Integer;
-    FDPaux:Boolean;
-    nuevoNodo:TPnodo;
-begin
-    FDPaux:=False;
-    long:=Length(palabra);
-
-    for i:=1 to long do
-        begin
-            pos:= Ord(palabra[i])-96;
-            if palabra[i] = palabra[long] then FDPaux:=True;
-
-            crearNodo(FDPaux,nuevoNodo);
-
-            if raiz^.hijos[pos] = Nil then
-            begin
-                raiz^.hijos[pos]:=nuevoNodo;
-                raiz:=raiz^.hijos[pos];
-            end
-            else
-                begin
-                    raiz:=raiz^.hijos[pos]
-                end;
-
-        end;
-end;
-
-function BuscarPalabra(palabra:String;raiz:TTrie):Boolean;
-var i,long,indice:integer;
-    bool:boolean;
-
-begin
-    long:=Length(palabra);
-    bool:=True;
-    for i:=1 to long do
-    begin
-          indice:=ord(palabra[i])-96;
-          if raiz^.hijos[indice] = nil then bool:=False
-          else
-            begin
-                raiz:=raiz^.hijos[indice];
-            end;
-    end;
-    BuscarPalabra:=bool;
-end;
 ///////////////////////////////////////////////////////////////////////////////
 {Falta sacar el backtrack}
 
@@ -96,10 +46,10 @@ begin
         if raiz^.hijos[i] <> nil then
         begin
             p:=pref+chr(ord(i+96));
-            MostrarTrie(p,raiz^.hijos[i]);
+            MostrarTrie(p,raiz^.hijos[i],memo);
             if (raiz^.hijos[i].FDP = true)then
             begin
-                memo.lines.add(p,'  ',raiz^.hijos[i]^.FDP);
+                memo.lines.add(p);
                 memo.lines.add('');
             end;
 
@@ -107,7 +57,8 @@ begin
     end;
 
 end;
-////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 procedure BuscarPorPref(pref:string;raiz:TTrie;memo:TMemo);
 var long,i:integer;
     check:boolean;
@@ -123,11 +74,53 @@ begin
             end
         else raiz:=raiz^.hijos[ord(pref[i])-96] end;
 
-    if check = True then mostrarTrie(pref,raiz)
-    else writeln('no existe la palabra: ',pref);
+    if check = True then mostrarTrie(pref,raiz,memo)
+    else memo.lines.add('no existe la palabra: '+pref);
 end;
 
 
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+    memo1.clear;
+    Timer1.Enabled := True;
+    Timer1.Interval := 100;
 
+    if edit1.text <> '' then BuscarPorPref(edit1.text,raiz,memo1);
+
+end;
+
+procedure TForm1.btnAgregarAlDiccionarioClick(Sender: TObject);
+var esta:boolean;
+begin
+esta:= BuscarPalabra(edit1.Text,raiz);
+
+if esta then showMessage('Esta palabra ya esta en el diccionario')//nada
+else
+    begin
+    InsertarPalabra(edit1.text,raiz);
+    //lista.Add(edit1.text);
+    end;
+end;
+
+procedure CargarDiccionario(lista:Tstringlist;raiz:TTrie);
+var i:integer;
+begin
+
+Lista:= TStringList.Create;
+Lista.LoadFromFile('diccionario.txt');
+
+for i:=0 to lista.count-1 do
+begin
+    InsertarPalabra(Lista.Strings[i],raiz);
+    end;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+    memo1.Clear;
+    inicializarTrie(raiz);
+    CargarDiccionario(lista,raiz);
+
+end;
 
 end.

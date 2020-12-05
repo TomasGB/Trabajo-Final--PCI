@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 951
-  Top = 119
+  Left = 880
+  Top = 129
   Width = 306
   Height = 450
   Caption = 'Form1'
@@ -11,6 +11,7 @@ object Form1: TForm1
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Edit1: TEdit
@@ -46,5 +47,15 @@ object Form1: TForm1
     Caption = 'Agregar al diccionario'
     TabOrder = 3
     WordWrap = True
+    OnClick = btnAgregarAlDiccionarioClick
+  end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    Left = 8
+    Top = 376
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 48
+    Top = 376
   end
 end

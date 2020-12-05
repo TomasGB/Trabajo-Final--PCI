@@ -65,7 +65,7 @@ var i:integer;
     l:char;
 begin
 
-    i:=1;
+    {i:=1;
     while (padre^.hijos <> nil) do
     begin
         l:= palabra[i];
@@ -75,7 +75,8 @@ begin
                 i:=i+1;
             end
         else padre^.hijos:=hijoAInsertar;
-    end;
+    end;}
+    
 
 end;
 

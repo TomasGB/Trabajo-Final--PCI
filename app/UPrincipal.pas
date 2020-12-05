@@ -13,6 +13,7 @@ type
     btnMostrarDiccionario: TButton;
     btnAgregarAlDiccionario: TButton;
     Timer1: TTimer;
+    OpenDialog1: TOpenDialog;
     procedure Timer1Timer(Sender: TObject);
     procedure btnAgregarAlDiccionarioClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -26,6 +27,8 @@ type
 var
   Form1: TForm1;
   raiz:TTrie;
+  lista:Tstringlist;
+
 
 implementation
 
@@ -79,8 +82,8 @@ end;
 procedure TForm1.Timer1Timer(Sender: TObject);
 begin
     memo1.clear;
-    Timer1 .Enabled := True;
-    Timer1.Interval := 300;
+    Timer1.Enabled := True;
+    Timer1.Interval := 100;
 
     if edit1.text <> '' then BuscarPorPref(edit1.text,raiz,memo1);
 
@@ -93,14 +96,30 @@ esta:= BuscarPalabra(edit1.Text,raiz);
 
 if esta then showMessage('Esta palabra ya esta en el diccionario')//nada
 else
+    begin
     InsertarPalabra(edit1.text,raiz);
+    //lista.Add(edit1.text);
+    end;
 end;
 
+procedure CargarDiccionario(lista:Tstringlist;raiz:TTrie);
+var i:integer;
+begin
+
+Lista:= TStringList.Create;
+Lista.LoadFromFile('diccionario.txt');
+
+for i:=0 to lista.count-1 do
+begin
+    InsertarPalabra(Lista.Strings[i],raiz);
+    end;
+end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
     memo1.Clear;
     inicializarTrie(raiz);
+    CargarDiccionario(lista,raiz);
 
 end;
 

@@ -7,8 +7,7 @@ uses
   Dialogs, StdCtrls, UNodo;
 
 type
-    Trie = record
-                hijos:Tnodo;
+    TTrie = TPnodo;
 
 
 implementation
