@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 552
-  Top = 116
+  Left = 556
+  Top = 106
   Width = 706
   Height = 568
   Caption = 'Form1'
@@ -49,6 +49,7 @@ object Form1: TForm1
     Caption = 'Mostrar diccionario'
     TabOrder = 2
     WordWrap = True
+    OnClick = btnMostrarDiccionarioClick
   end
   object btnAgregarAlDiccionario: TButton
     Left = 352
@@ -59,6 +60,15 @@ object Form1: TForm1
     TabOrder = 3
     WordWrap = True
     OnClick = btnAgregarAlDiccionarioClick
+  end
+  object BtnClearMemo: TButton
+    Left = 72
+    Top = 408
+    Width = 91
+    Height = 41
+    Caption = 'Clear Memo'
+    TabOrder = 4
+    OnClick = BtnClearMemoClick
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer

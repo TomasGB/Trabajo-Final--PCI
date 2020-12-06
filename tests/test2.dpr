@@ -5,7 +5,7 @@ program test2;
 uses
   SysUtils;
 
-const LETRAS =26; //sin contar la ñ
+const LETRAS =27; //sin contar la ñ
 
 type
     TPnodo = ^Tnodo;
@@ -50,23 +50,31 @@ begin
 
     for i:=1 to long do
         begin
-            pos:= Ord(palabra[i])-96;
+            if palabra[i] = ' ' then pos:=27
+            else pos:= Ord(palabra[i])-96;
+
             if palabra[i] = palabra[long] then FDPaux:=True;
 
             crearNodo(FDPaux,nuevoNodo);
 
-            if raiz^.hijos[pos] = Nil then
+            if (raiz^.hijos[pos] = Nil){ and (pos <> (-64))}then
             begin
                 raiz^.hijos[pos]:=nuevoNodo;
                 raiz:=raiz^.hijos[pos];
             end
             else
-                begin
-                    raiz:=raiz^.hijos[pos]
-                end;
-
+                {if (pos =(-64))and(raiz^.hijos[27] = Nil)then
+                    begin
+                        raiz^.hijos[27]:=nuevoNodo;
+                        raiz:=raiz^.hijos[27];
+                    end
+                else
+                    if  (pos =(-64))and(raiz^.hijos[27] <> Nil) then raiz:=raiz^.hijos[27]
+                    else }raiz:=raiz^.hijos[pos];
         end;
+
 end;
+
 
 function BuscarPalabra(palabra:String;raiz:TTrie):Boolean;
 var i,long,indice:integer;
@@ -97,7 +105,8 @@ begin
     begin
         if raiz^.hijos[i] <> nil then
         begin
-            p:=pref+chr(ord(i+96));
+            if chr(ord(i+96)) = '{' then p:=pref+' '
+            else p:=pref+chr(ord(i+96));
             MostrarTrie(p,raiz^.hijos[i]);
             if (raiz^.hijos[i].FDP = true)then
             begin
@@ -154,6 +163,12 @@ InsertarPalabra('parapente',r);
 writeln('se inserto, parapente');
 InsertarPalabra('tomas',r);
 writeln('se inserto, tomas');
+InsertarPalabra('juez',r);
+writeln('se inserto, juez');
+InsertarPalabra('juez federal',r);
+writeln('se inserto, juez federal');
+InsertarPalabra('juez penal',r);
+writeln('se inserto, juez penal');
 writeln('---------');
 
 a:=BuscarPalabra('perro',r);
@@ -175,7 +190,7 @@ BuscarPorPref('ho',r);
 writeln('---------');
 writeln('Buscar por pref, cuando no hay palabra');
 writeln('');
-BuscarPorPref('ja',r);
+BuscarPorPref('ju',r);
 readln;
 
 

@@ -36,23 +36,23 @@ begin
 
     for i:=1 to long do
         begin
-            pos:= Ord(palabra[i])-96;
+            if palabra[i] = ' ' then pos:=27
+            else pos:= Ord(palabra[i])-96;
+
             if palabra[i] = palabra[long] then FDPaux:=True;
 
             crearNodo(FDPaux,nuevoNodo);
 
-            if raiz^.hijos[pos] = Nil then
+            if (raiz^.hijos[pos] = Nil) then
             begin
                 raiz^.hijos[pos]:=nuevoNodo;
                 raiz:=raiz^.hijos[pos];
             end
-            else
-                begin
-                    raiz:=raiz^.hijos[pos]
-                end;
-
+            else raiz:=raiz^.hijos[pos];
         end;
+
 end;
+
 
 function BuscarPalabra(palabra:String;raiz:TTrie):Boolean;
 var i,long,indice:integer;
@@ -63,10 +63,14 @@ begin
     bool:=True;
     for i:=1 to long do
     begin
-          indice:=ord(palabra[i])-96;
-          if raiz^.hijos[indice] = nil then bool:=False
+          if  (ord(palabra[i]) = 32) or (ord(palabra[i]) = 123) then indice :=27
+          else indice:=ord(palabra[i])-96;
+
+          if(raiz^.hijos[indice] = nil)  then bool:=False
           else
             begin
+                if (palabra[i]= ' ') or (palabra[i]= '{') then raiz:=raiz^.hijos[27]
+                else
                 raiz:=raiz^.hijos[indice];
             end;
     end;

@@ -14,9 +14,12 @@ type
     btnAgregarAlDiccionario: TButton;
     Timer1: TTimer;
     OpenDialog1: TOpenDialog;
+    BtnClearMemo: TButton;
     procedure Timer1Timer(Sender: TObject);
     procedure btnAgregarAlDiccionarioClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnMostrarDiccionarioClick(Sender: TObject);
+    procedure BtnClearMemoClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -45,14 +48,15 @@ begin
     begin
         if raiz^.hijos[i] <> nil then
         begin
-            p:=pref+chr(ord(i+96));
-            MostrarTrie(p,raiz^.hijos[i],memo);
+            if (chr(ord(i+96)) = '{') or (chr(ord(i+96)) = ' ') then  p:=pref+' '
+            else p:=pref+chr(ord(i+96));
+
             if (raiz^.hijos[i].FDP = true)then
             begin
                 memo.lines.add(p);
                 memo.lines.add('');
             end;
-
+            MostrarTrie(p,raiz^.hijos[i],memo);
         end;
     end;
 
@@ -75,17 +79,20 @@ begin
         else raiz:=raiz^.hijos[ord(pref[i])-96] end;
 
     if check = True then mostrarTrie(pref,raiz,memo)
-    else memo.lines.add('no existe la palabra: '+pref);
+    else memo.lines.add({'no existe la palabra: '+ }pref);
 end;
 
 
 procedure TForm1.Timer1Timer(Sender: TObject);
 begin
-    memo1.clear;
-    Timer1.Enabled := True;
-    Timer1.Interval := 100;
 
-    if edit1.text <> '' then BuscarPorPref(edit1.text,raiz,memo1);
+    if edit1.text <> '' then
+    begin
+         memo1.clear;
+        Timer1.Enabled := True;
+        Timer1.Interval := 500;
+        BuscarPorPref(edit1.text,raiz,memo1);
+    end;
 
 end;
 
@@ -94,11 +101,10 @@ var esta:boolean;
 begin
 esta:= BuscarPalabra(edit1.Text,raiz);
 
-if esta then showMessage('Esta palabra ya esta en el diccionario')//nada
+if esta then showMessage('Esta palabra ya esta en el diccionario')
 else
     begin
     InsertarPalabra(edit1.text,raiz);
-    //lista.Add(edit1.text);
     end;
 end;
 
@@ -121,6 +127,16 @@ begin
     inicializarTrie(raiz);
     CargarDiccionario(lista,raiz);
 
+end;
+
+procedure TForm1.btnMostrarDiccionarioClick(Sender: TObject);
+begin
+mostrarTrie('',raiz,memo1);
+end;
+
+procedure TForm1.BtnClearMemoClick(Sender: TObject);
+begin
+memo1.Clear;
 end;
 
 end.
