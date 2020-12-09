@@ -29,6 +29,17 @@ begin
       nodo^.hijos[i]:=nil;
 end;
 
+procedure destruirNodo(FDPaux:boolean;var nodo:TPnodo);
+var i:integer;
+begin
+    nodo.FDP:=False;
+    for i:=1 to letras do
+    begin
+         dispose(nodo.hijos[i]);
+         nodo.hijos[i]:=nil;
+    end;
+end;
+
 
 
 end.

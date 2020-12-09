@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls;
 
-const LETRAS =26; //sin contar la ñ
+const LETRAS =27; //sin contar la ñ, 27 es para el espacio
 
 type
      TPnodo = ^Tnodo;
@@ -27,6 +27,17 @@ begin
     nodo^.FDP:=FDPaux;
     for i:=1 to LETRAS do
       nodo^.hijos[i]:=nil;
+end;
+
+procedure destruirNodo(FDPaux:boolean;var nodo:TPnodo);
+var i:integer;
+begin
+    nodo.FDP:=False;
+    for i:=1 to letras do
+    begin
+         dispose(nodo.hijos[i]);
+         nodo.hijos[i]:=nil;
+    end;
 end;
 
 
