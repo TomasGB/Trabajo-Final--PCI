@@ -31,6 +31,7 @@ var
   Form1: TForm1;
   raiz:TTrie;
   lista:Tstringlist;
+  ultimaPalabra:string;
 
 
 implementation
@@ -79,7 +80,48 @@ begin
         else raiz:=raiz^.hijos[ord(pref[i])-96] end;
 
     if check = True then mostrarTrie(pref,raiz,memo)
-    else memo.lines.add({'no existe la palabra: '+ }pref);
+    else memo.lines.add('no existe la palabra: '+ pref);
+end;
+
+
+procedure buscarUltimaPalabra(palabras:string;raiz:TTrie; var ultimaPalabra:string);
+var i:integer;
+    esUltimaPalabra:boolean;
+begin
+
+esUltimaPalabra:=False;
+ultimaPalabra:='';
+i:=1;
+
+while not esUltimaPalabra do
+begin
+    while (palabras[i]<>' ') and (i < length(palabras)) do
+        begin
+            ultimaPalabra:=ultimaPalabra+palabras[i];
+            i:=i+1;
+        end;
+
+    if (palabras[i]<> ' ') and (i <> length(palabras)) then
+        begin
+            esUltimaPalabra:=False;
+            ultimaPalabra:='';
+            i:=i+1;
+        end
+    else
+        begin
+            if i < length(palabras) then
+                begin
+                    esUltimaPalabra:=False;
+                    ultimaPalabra:='';
+                    i:=i+1;
+                end
+            else
+                begin
+                    ultimaPalabra:=ultimaPalabra+palabras[i];
+                    esUltimaPalabra:=True;
+                end;
+            end;
+    end;
 end;
 
 
@@ -91,7 +133,8 @@ begin
          memo1.clear;
         Timer1.Enabled := True;
         Timer1.Interval := 500;
-        BuscarPorPref(edit1.text,raiz,memo1);
+        buscarUltimaPalabra(edit1.text,raiz,ultimaPalabra);
+        BuscarPorPref(ultimaPalabra,raiz,memo1);
     end;
 
 end;
@@ -104,7 +147,8 @@ esta:= BuscarPalabra(edit1.Text,raiz);
 if esta then showMessage('Esta palabra ya esta en el diccionario')
 else
     begin
-    InsertarPalabra(edit1.text,raiz);
+        buscarUltimaPalabra(edit1.text,raiz,ultimaPalabra);
+        InsertarPalabra(ultimaPalabra,raiz);
     end;
 end;
 
@@ -120,6 +164,8 @@ begin
     InsertarPalabra(Lista.Strings[i],raiz);
     end;
 end;
+
+
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
