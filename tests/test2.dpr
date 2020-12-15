@@ -119,6 +119,49 @@ begin
 
 end;
 ////////////////////////////////////////////////////
+
+procedure buscarUltimaPalabra(palabras:string;raiz:TTrie; var ultimaPalabra:string);
+var i:integer;
+    esUltimaPalabra:boolean;
+begin
+
+esUltimaPalabra:=False;
+ultimaPalabra:='';
+i:=1;
+while not esUltimaPalabra do
+begin
+    while (palabras[i]<>' ') and (i < length(palabras)) do
+        begin
+            ultimaPalabra:=ultimaPalabra+palabras[i];
+            i:=i+1;
+        end;
+
+
+    if (palabras[i]<> ' ') and (i <> length(palabras)) then
+    begin
+        esUltimaPalabra:=False;
+        ultimaPalabra:='';
+        i:=i+1;
+    end
+    else
+        begin
+            if i < length(palabras) then
+            begin
+                esUltimaPalabra:=False;
+                ultimaPalabra:='';
+                i:=i+1;
+            end
+            else
+                begin
+                    ultimaPalabra:=ultimaPalabra+palabras[i];
+                    esUltimaPalabra:=True;
+                end;
+            end;
+end;
+writeln(ultimaPalabra);
+end;
+
+
 procedure BuscarPorPref(pref:string;raiz:TTrie);
 var long,i:integer;
     check:boolean;
@@ -139,6 +182,7 @@ end;
 //variables globales
 var r:TTrie;
 a,b,c{,d,e,f}:boolean;
+ultimaPalabra:string;
 
 begin
 //for j:=1 to 27 do write(', ',ord(char(96+j))-96);
@@ -188,11 +232,16 @@ writeln('');
 BuscarPorPref('ho',r);
 
 writeln('---------');
-writeln('Buscar por pref, cuando no hay palabra');
+writeln('Buscar por pref:, cuando no hay palabra');
 writeln('');
-BuscarPorPref('ju',r);
-readln;
+BuscarPorPref('zas',r);
 
+writeln('---------');
+writeln('prueba procedimiento buscarUltimaPalabra');
+writeln('');
+buscarUltimaPalabra('hola me llamo tomas',r,ultimaPalabra);
+
+readln;
 
 
 end.
