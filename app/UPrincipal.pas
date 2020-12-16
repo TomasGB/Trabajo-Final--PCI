@@ -84,7 +84,7 @@ begin
 end;
 
 
-procedure buscarUltimaPalabra(palabras:string;raiz:TTrie; var ultimaPalabra:string);
+procedure parsearUltimaPalabra(palabras:string;raiz:TTrie; var ultimaPalabra:string);
 var i:integer;
     esUltimaPalabra:boolean;
 begin
@@ -133,7 +133,7 @@ begin
          memo1.clear;
         Timer1.Enabled := True;
         Timer1.Interval := 500;
-        buscarUltimaPalabra(edit1.text,raiz,ultimaPalabra);
+        parsearUltimaPalabra(edit1.text,raiz,ultimaPalabra);
         BuscarPorPref(ultimaPalabra,raiz,memo1);
     end;
 
@@ -147,7 +147,7 @@ esta:= BuscarPalabra(edit1.Text,raiz);
 if esta then showMessage('Esta palabra ya esta en el diccionario')
 else
     begin
-        buscarUltimaPalabra(edit1.text,raiz,ultimaPalabra);
+        parsearUltimaPalabra(edit1.text,raiz,ultimaPalabra);
         InsertarPalabra(ultimaPalabra,raiz);
     end;
 end;
