@@ -181,66 +181,77 @@ end;
 
 //variables globales
 var r:TTrie;
-a,b,c{,d,e,f}:boolean;
+a,b,c,d,e,f,g:boolean;
 ultimaPalabra:string;
 
 begin
 //for j:=1 to 27 do write(', ',ord(char(96+j))-96);
 
 inicializarTrie(r);
-
+///////////////////////////////////////////////////////////////////////////////
+writeln('Test procedimientos InsertarPalabra y BuscarPalabra:');
+writeln('');
 InsertarPalabra('perro',r);
-writeln('se inserto, perro');
-InsertarPalabra('pero',r);
-writeln('se inserto, pero');
-InsertarPalabra('perenne',r);
-writeln('se inserto, perenne');
-InsertarPalabra('perra',r);
-writeln('se inserto, perra');
-InsertarPalabra('hola',r);
-writeln('se inserto, hola');
-InsertarPalabra('holanda',r);
-writeln('se inserto, holanda');
-InsertarPalabra('holandes',r);
-writeln('se inserto, holandes');
-InsertarPalabra('parapente',r);
-writeln('se inserto, parapente');
-InsertarPalabra('tomas',r);
-writeln('se inserto, tomas');
-InsertarPalabra('juez',r);
-writeln('se inserto, juez');
-InsertarPalabra('juez federal',r);
-writeln('se inserto, juez federal');
-InsertarPalabra('juez penal',r);
-writeln('se inserto, juez penal');
-writeln('---------');
-
+writeln('insertar perro');
 a:=BuscarPalabra('perro',r);
-writeln('esta (perro) en el trie: ',a);
+writeln('se inserto perro en el trie: ',a);
+writeln('');
+InsertarPalabra('pero',r);
+writeln('insertar pero');
 b:=BuscarPalabra('pero',r);
-writeln('esta (pero) en el trie: ',b);
+writeln('se inserto pero en el trie: ',b);
+writeln('');
+InsertarPalabra('perenne',r);
+writeln('insertar perenne');
 c:=BuscarPalabra('perenne',r);
-writeln('esta (perenne) en el trie: ',c);
-
-writeln('---------');
-writeln('Trie entero');
+writeln('se inserto perenne en el trie: ',c);
+writeln('');
+InsertarPalabra('perra',r);
+writeln('insertar perra');
+d:=BuscarPalabra('perra',r);
+writeln('se inserto perra en el trie: ',d);
+writeln('');
+InsertarPalabra('hola',r);
+writeln('insertar hola');
+e:=BuscarPalabra('hola',r);
+writeln('se inserto hola en el trie: ',e);
+writeln('');
+InsertarPalabra('holanda',r);
+writeln('insertar holanda');
+f:=BuscarPalabra('holanda',r);
+writeln('se inserto holanda en el trie: ',f);
+writeln('');
+InsertarPalabra('holandes',r);
+writeln('insertar holandes');
+g:=BuscarPalabra('holandes',r);
+writeln('se inserto holandes en el trie: ',g);
+writeln('');
+writeln('-------------------------------------------------------');
+writeln('Test procedimiento mostrarTrie:');
 writeln('');
 mostrarTrie('',r);
-writeln('---------');
-writeln('Buscar por pref');
+writeln('-------------------------------------------------------');
+writeln('');
+writeln('Test procedimiento BuscarPorPref');
+writeln('Palabras con el prefijo ( ho ) ');
 writeln('');
 BuscarPorPref('ho',r);
-
-writeln('---------');
-writeln('Buscar por pref:, cuando no hay palabra');
 writeln('');
-BuscarPorPref('zas',r);
-
-writeln('---------');
-writeln('prueba procedimiento buscarUltimaPalabra');
+writeln('Palabras con el prefijo ( perr ) ');
+BuscarPorPref('perr',r);
 writeln('');
-buscarUltimaPalabra('hola me llamo tomas',r,ultimaPalabra);
-
+writeln('Palabras con el prefijo ( ar ) ');
+writeln('');
+BuscarPorPref('ar',r);
+writeln('');
+writeln('-------------------------------------------------------');
+writeln('');
+writeln('Test procedimiento buscarUltimaPalabra');
+writeln('');
+writeln('Texto ingresado: ''prueba ultima palabra''');
+write('Resultado: ');buscarUltimaPalabra('prueba ultima palabra',r,ultimaPalabra);
+writeln('');
+writeln('-------------------------------------------------------');
 readln;
 
 
