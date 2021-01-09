@@ -32,6 +32,7 @@ var
   raiz:TTrie;
   lista:Tstringlist;
   ultimaPalabra:string;
+  diccionario:Text;
 
 
 implementation
@@ -39,25 +40,26 @@ implementation
 {$R *.dfm}
 
 ///////////////////////////////////////////////////////////////////////////////
-{Falta sacar el backtrack}
 
 procedure MostrarTrie(pref:string;raiz:TTrie;memo:TMemo);
 var i:integer;
     p:String;
+
 begin
     for i:=1 to letras do
     begin
         if raiz^.hijos[i] <> nil then
         begin
-            if (chr(ord(i+96)) = '{') or (chr(ord(i+96)) = ' ') then  p:=pref+' '
-            else p:=pref+chr(ord(i+96));
+            p:=pref+chr(ord(i+96));
 
             if (raiz^.hijos[i].FDP = true)then
             begin
+                memo.Lines.BeginUpdate;
                 memo.lines.add(p);
                 memo.lines.add('');
-            end;
-            MostrarTrie(p,raiz^.hijos[i],memo);
+                memo.Lines.EndUpdate;
+            end
+            else MostrarTrie(p,raiz^.hijos[i],memo);
         end;
     end;
 
@@ -130,7 +132,7 @@ begin
 
     if edit1.text <> '' then
     begin
-         memo1.clear;
+        memo1.clear;
         Timer1.Enabled := True;
         Timer1.Interval := 500;
         parsearUltimaPalabra(edit1.text,raiz,ultimaPalabra);
@@ -149,6 +151,7 @@ else
     begin
         parsearUltimaPalabra(edit1.text,raiz,ultimaPalabra);
         InsertarPalabra(ultimaPalabra,raiz);
+        agregarPalabraEnDiccionario(ultimaPalabra,diccionario);
     end;
 end;
 
@@ -162,9 +165,9 @@ Lista.LoadFromFile('diccionario.txt');
 for i:=0 to lista.count-1 do
 begin
     InsertarPalabra(Lista.Strings[i],raiz);
-    end;
 end;
 
+end;
 
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -175,14 +178,28 @@ begin
 
 end;
 
+procedure mostrarDiccionario(lista:Tstringlist;memo:TMemo);
+var i:integer;
+begin
+    Lista:= TStringList.Create;
+    Lista.LoadFromFile('diccionario.txt');
+
+    for i:=0 to lista.count-1 do
+    begin
+        memo.lines.add(Lista.Strings[i]);
+    end;
+
+end;
+
 procedure TForm1.btnMostrarDiccionarioClick(Sender: TObject);
 begin
-mostrarTrie('',raiz,memo1);
+mostrarDiccionario(lista,memo1);
+
 end;
 
 procedure TForm1.BtnClearMemoClick(Sender: TObject);
 begin
-memo1.Clear;
+    memo1.Clear;
 end;
 
 end.
