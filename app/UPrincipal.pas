@@ -39,9 +39,14 @@ implementation
 
 {$R *.dfm}
 
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 procedure MostrarTrie(pref:string;raiz:TTrie;memo:TMemo);
+{
+    Este procedimeinto se encarga de mostrar en el memo todas las posibles
+    recomendaciones de palabras dado el prefijo de la ultima palabra que
+    escribio el usuario.
+}
 var i:integer;
     p:String;
 
@@ -52,7 +57,7 @@ begin
         begin
             p:=pref+chr(ord(i+96));
 
-            if (raiz^.hijos[i].FDP = true)then
+            if (raiz^.hijos[i].FDP = true) then
             begin
                 memo.Lines.BeginUpdate;
                 memo.lines.add(p);
@@ -67,8 +72,17 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 
 procedure BuscarPorPref(pref:string;raiz:TTrie;memo:TMemo);
+{
+    Este procedimeinto se encarga de buscar todas las posibles recomendaciones
+    de palabras dado lo que escriba el usuario.
+}
 var long,i:integer;
     check:boolean;
+    {
+    La variable check, se utiliza como 'flag' para saber si hay o no
+    recomendaciones de palabras posibles.
+    }
+
 begin
     long:= length(pref);
     check:=True;
@@ -82,11 +96,16 @@ begin
         else raiz:=raiz^.hijos[ord(pref[i])-96] end;
 
     if check = True then mostrarTrie(pref,raiz,memo)
-    else memo.lines.add('no existe la palabra: '+ pref);
+    else memo.lines.add('No se encuentra la palabra: '+ pref);
 end;
 
 
 procedure parsearUltimaPalabra(palabras:string;raiz:TTrie; var ultimaPalabra:string);
+{
+    Este procedimiento se encarga de recorrer el string que ingresa el usuario,
+    separando las palabras por espacios y retornando la ultima en la variable
+    'ultimaPalabra'.
+}
 var i:integer;
     esUltimaPalabra:boolean;
 begin
@@ -98,12 +117,14 @@ i:=1;
 while not esUltimaPalabra do
 begin
     while (palabras[i]<>' ') and (i < length(palabras)) do
+    //Este bucle se utiliza para acumular la palabra.
         begin
             ultimaPalabra:=ultimaPalabra+palabras[i];
             i:=i+1;
         end;
 
     if (palabras[i]<> ' ') and (i <> length(palabras)) then
+    //Esta condicion checkea si hay mas palabras en el string hasta llegar a la ultima.
         begin
             esUltimaPalabra:=False;
             ultimaPalabra:='';
