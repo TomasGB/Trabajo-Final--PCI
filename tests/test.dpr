@@ -5,7 +5,7 @@ program test;
 uses
   SysUtils;
 
-const LETRAS =27; //sin contar la ñ
+const LETRAS =26; //sin contar la ñ
 
 type
     TPnodo = ^Tnodo;
@@ -50,27 +50,20 @@ begin
 
     for i:=1 to long do
         begin
-            if palabra[i] = ' ' then pos:=27
-            else pos:= Ord(palabra[i])-96;
+            pos:= Ord(palabra[i])-96;
 
-            if palabra[i] = palabra[long] then FDPaux:=True;
+            if i = long then FDPaux:=True
+            else FDPaux:=False;
 
             crearNodo(FDPaux,nuevoNodo);
 
-            if (raiz^.hijos[pos] = Nil){ and (pos <> (-64))}then
+            if (raiz^.hijos[pos] = Nil)then
             begin
                 raiz^.hijos[pos]:=nuevoNodo;
                 raiz:=raiz^.hijos[pos];
             end
             else
-                {if (pos =(-64))and(raiz^.hijos[27] = Nil)then
-                    begin
-                        raiz^.hijos[27]:=nuevoNodo;
-                        raiz:=raiz^.hijos[27];
-                    end
-                else
-                    if  (pos =(-64))and(raiz^.hijos[27] <> Nil) then raiz:=raiz^.hijos[27]
-                    else }raiz:=raiz^.hijos[pos];
+                raiz:=raiz^.hijos[pos];
         end;
 
 end;
@@ -94,8 +87,6 @@ begin
     end;
     BuscarPalabra:=bool;
 end;
-///////////////////////////////////////////////////////////////////////////////
-{Falta sacar el backtrack}
 
 procedure MostrarTrie(pref:string;raiz:TTrie);
 var i:integer;
@@ -105,20 +96,17 @@ begin
     begin
         if raiz^.hijos[i] <> nil then
         begin
-            if chr(ord(i+96)) = '{' then p:=pref+' '
-            else p:=pref+chr(ord(i+96));
+            p:=pref+chr(ord(i+96));
             MostrarTrie(p,raiz^.hijos[i]);
-            if (raiz^.hijos[i].FDP = true)then
+            if (raiz.hijos[i].FDP = true)then
             begin
-                Write(p,'  ',raiz^.hijos[i]^.FDP);
+                Write(p,'  ',raiz.hijos[i]^.FDP);
                 writeln('');
             end;
-
         end;
     end;
 
 end;
-////////////////////////////////////////////////////
 
 procedure buscarUltimaPalabra(palabras:string;raiz:TTrie; var ultimaPalabra:string);
 var i:integer;
@@ -185,9 +173,9 @@ a,b,c,d,e,f,g:boolean;
 ultimaPalabra:string;
 
 begin
-//for j:=1 to 27 do write(', ',ord(char(96+j))-96);
 
 inicializarTrie(r);
+
 ///////////////////////////////////////////////////////////////////////////////
 writeln('Test procedimientos InsertarPalabra y BuscarPalabra:');
 writeln('');
@@ -236,6 +224,9 @@ writeln('Test procedimiento BuscarPorPref');
 writeln('Palabras con el prefijo ( ho ) ');
 writeln('');
 BuscarPorPref('ho',r);
+writeln('');
+writeln('Palabras con el prefijo ( per ) ');
+BuscarPorPref('per',r);
 writeln('');
 writeln('Palabras con el prefijo ( perr ) ');
 BuscarPorPref('perr',r);
