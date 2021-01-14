@@ -45,8 +45,7 @@ begin
 
     for i:=1 to long do
         begin
-            {if palabra[i] = 'ñ' then pos:=27
-            else }pos:= Ord(palabra[i])-96;
+            pos:= Ord(palabra[i])-96;
 
             if palabra[i] = palabra[long] then FDPaux:=True;
 
@@ -69,18 +68,14 @@ var i,long,indice:integer;
 begin
     long:=Length(palabra);
     bool:=True;
+    
     for i:=1 to long do
     begin
-         { if  palabra[i] = 'ñ' then indice :=27
-          else }indice:=ord(palabra[i])-96;
+         indice:=ord(palabra[i])-96;
 
           if(raiz^.hijos[indice] = nil)  then bool:=False
-          else
-            begin
-                {if (palabra[i]= 'ñ') then raiz:=raiz^.hijos[indice]
-                else }
-                raiz:=raiz^.hijos[indice];
-            end;
+          else raiz:=raiz^.hijos[indice];
+
     end;
     BuscarPalabra:=bool;
 end;

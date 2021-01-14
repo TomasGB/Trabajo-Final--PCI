@@ -47,7 +47,8 @@ begin
         begin
             pos:= Ord(palabra[i])-96;
 
-            if palabra[i] = palabra[long] then FDPaux:=True;
+            if i = long then FDPaux:=True
+            else FDPaux:=False;
 
             crearNodo(FDPaux,nuevoNodo);
 
