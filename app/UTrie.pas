@@ -40,7 +40,6 @@ var i,long,pos:Integer;
     FDPaux:Boolean;
     nuevoNodo:TPnodo;
 begin
-    FDPaux:=False;
     long:=Length(palabra);
 
     for i:=1 to long do

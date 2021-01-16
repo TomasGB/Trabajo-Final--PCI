@@ -39,8 +39,6 @@ implementation
 
 {$R *.dfm}
 
-////////////////////////////////////////////////////////////////////////////////
-
 procedure MostrarTrie(pref:string;raiz:TTrie;memo:TMemo);
 {
     Este procedimeinto se encarga de mostrar en el memo todas las posibles
@@ -69,7 +67,7 @@ begin
     end;
 
 end;
-////////////////////////////////////////////////////////////////////////////////
+
 
 procedure BuscarPorPref(pref:string;raiz:TTrie;memo:TMemo);
 {
@@ -124,7 +122,7 @@ begin
         end;
 
     if (palabras[i]<> ' ') and (i <> length(palabras)) then
-    //Esta condicion checkea si hay mas palabras en el string hasta llegar a la ultima.
+    //Esta condicion checkea si hay mas de una palabra en el string.
         begin
             esUltimaPalabra:=False;
             ultimaPalabra:='';

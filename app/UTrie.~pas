@@ -40,14 +40,14 @@ var i,long,pos:Integer;
     FDPaux:Boolean;
     nuevoNodo:TPnodo;
 begin
-    FDPaux:=False;
     long:=Length(palabra);
 
     for i:=1 to long do
         begin
             pos:= Ord(palabra[i])-96;
 
-            if palabra[i] = palabra[long] then FDPaux:=True;
+            if i = long then FDPaux:=True
+            else FDPaux:=False;
 
             crearNodo(FDPaux,nuevoNodo);
 

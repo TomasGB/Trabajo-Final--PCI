@@ -56,6 +56,7 @@ begin
         if raiz^.hijos[i] <> nil then
         begin
             p:=pref+chr(ord(i+96));
+            MostrarTrie(p,raiz^.hijos[i],memo);
 
             if (raiz^.hijos[i].FDP = true) then
             begin
@@ -63,8 +64,7 @@ begin
                 memo.lines.add(p);
                 memo.lines.add('');
                 memo.Lines.EndUpdate;
-            end
-            else MostrarTrie(p,raiz^.hijos[i],memo);
+            end;
         end;
     end;
 
