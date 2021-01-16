@@ -17,8 +17,6 @@ type
 
     TTrie = TPnodo;
 
-//var raiz:TTrie;
-
 
 procedure inicializarTrie(var raiz:TTrie);
 var i:Integer;
@@ -45,7 +43,6 @@ var i,long,pos:Integer;
     FDPaux:Boolean;
     nuevoNodo:TPnodo;
 begin
-    FDPaux:=False;
     long:=Length(palabra);
 
     for i:=1 to long do
@@ -100,7 +97,7 @@ begin
             MostrarTrie(p,raiz^.hijos[i]);
             if (raiz.hijos[i].FDP = true)then
             begin
-                Write(p,'  ',raiz.hijos[i]^.FDP);
+                Write(p,'  ');
                 writeln('');
             end;
         end;
@@ -169,7 +166,7 @@ end;
 
 //variables globales
 var r:TTrie;
-a,b,c,d,e,f,g:boolean;
+a,b,c,d,e,f,g,h:boolean;
 ultimaPalabra:string;
 
 begin
@@ -182,37 +179,40 @@ writeln('');
 InsertarPalabra('perro',r);
 writeln('insertar perro');
 a:=BuscarPalabra('perro',r);
-writeln('se inserto perro en el trie: ',a);
+writeln('se inserto perro en el trie?: ',a);
 writeln('');
 InsertarPalabra('pero',r);
 writeln('insertar pero');
 b:=BuscarPalabra('pero',r);
-writeln('se inserto pero en el trie: ',b);
+writeln('se inserto pero en el trie?: ',b);
 writeln('');
 InsertarPalabra('perenne',r);
 writeln('insertar perenne');
 c:=BuscarPalabra('perenne',r);
-writeln('se inserto perenne en el trie: ',c);
+writeln('se inserto perenne en el trie?: ',c);
 writeln('');
 InsertarPalabra('perra',r);
 writeln('insertar perra');
 d:=BuscarPalabra('perra',r);
-writeln('se inserto perra en el trie: ',d);
+writeln('se inserto perra en el trie?: ',d);
 writeln('');
 InsertarPalabra('hola',r);
 writeln('insertar hola');
 e:=BuscarPalabra('hola',r);
-writeln('se inserto hola en el trie: ',e);
+writeln('se inserto hola en el trie?: ',e);
 writeln('');
 InsertarPalabra('holanda',r);
 writeln('insertar holanda');
 f:=BuscarPalabra('holanda',r);
-writeln('se inserto holanda en el trie: ',f);
+writeln('se inserto holanda en el trie?: ',f);
 writeln('');
 InsertarPalabra('holandes',r);
 writeln('insertar holandes');
 g:=BuscarPalabra('holandes',r);
-writeln('se inserto holandes en el trie: ',g);
+writeln('se inserto holandes en el trie?: ',g);
+writeln('');
+h:=BuscarPalabra('casa',r);
+writeln('se inserto '+'casa '+'en el trie?: ',h);
 writeln('');
 writeln('-------------------------------------------------------');
 writeln('Test procedimiento mostrarTrie:');
