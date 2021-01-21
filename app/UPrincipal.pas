@@ -46,14 +46,17 @@ procedure MostrarTrie(pref:string;raiz:TTrie;memo:TMemo);
     escribio el usuario.
 }
 var i:integer;
-    p:String;
-
+    p,letra:String;
+                      
 begin
     for i:=1 to letras do
     begin
         if raiz^.hijos[i] <> nil then
         begin
-            p:=pref+chr(ord(i+96));
+            if i=27 then letra:='ñ' // 164 es el codigo ascii de la ñ
+            else letra:=chr(ord(i+96));
+
+            p:=pref+letra;
             MostrarTrie(p,raiz^.hijos[i],memo);
 
             if (raiz^.hijos[i].FDP = true) then
@@ -63,7 +66,8 @@ begin
                 memo.lines.add('');
                 memo.Lines.EndUpdate;
             end;
-        end;
+        end
+        else ;
     end;
 
 end;
@@ -74,7 +78,7 @@ procedure BuscarPorPref(pref:string;raiz:TTrie;memo:TMemo);
     Este procedimeinto se encarga de buscar todas las posibles recomendaciones
     de palabras dado lo que escriba el usuario.
 }
-var long,i:integer;
+var long,i, pos:integer;
     check:boolean;
     {
     La variable check, se utiliza como 'flag' para saber si hay o no
@@ -86,12 +90,19 @@ begin
     check:=True;
     for i:=1 to long do
     begin
-        if raiz^.hijos[ord(pref[i])-96] = nil then
+        if pref[i]='ñ' then pos := 27
+        else pos:=ord(pref[i])-96;
+
+        if raiz^.hijos[pos] = nil then
             begin
                 check:=False;
-
             end
-        else raiz:=raiz^.hijos[ord(pref[i])-96] end;
+        else
+        begin
+            if pref[i] = 'ñ' then raiz:=raiz^.hijos[27]
+            else raiz:=raiz^.hijos[ord(pref[i])-96];
+        end;
+    end;
 
     if check = True then mostrarTrie(pref,raiz,memo)
     else memo.lines.add('No se encuentra la palabra: '+ pref);
@@ -170,7 +181,7 @@ else
     begin
         parsearUltimaPalabra(edit1.text,raiz,ultimaPalabra);
         InsertarPalabra(ultimaPalabra,raiz);
-        agregarPalabraEnDiccionario(ultimaPalabra,diccionario);
+        agregarPalabraEnDiccionario(UTF8Encode(ultimaPalabra),diccionario);
     end;
 end;
 
@@ -183,7 +194,7 @@ Lista.LoadFromFile('diccionario.txt');
 
 for i:=0 to lista.count-1 do
 begin
-    InsertarPalabra(Lista.Strings[i],raiz);
+    InsertarPalabra(Utf8Decode(Lista.Strings[i]),raiz);
 end;
 
 end;
@@ -205,7 +216,7 @@ begin
 
     for i:=0 to lista.count-1 do
     begin
-        memo.lines.add(Lista.Strings[i]);
+        memo.lines.add(UTF8Decode(Lista.Strings[i]));
     end;
 
 end;

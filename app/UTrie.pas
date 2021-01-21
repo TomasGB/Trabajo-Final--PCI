@@ -44,7 +44,8 @@ begin
 
     for i:=1 to long do
         begin
-            pos:= Ord(palabra[i])-96;
+            if palabra[i] = 'ñ' then pos:=27
+            else pos:= Ord(palabra[i])-96;
 
             if i = long then FDPaux:=True
             else FDPaux:=False;
@@ -71,7 +72,8 @@ begin
     
     for i:=1 to long do
     begin
-         indice:=ord(palabra[i])-96;
+         if palabra[i] = 'ñ' then indice:=27
+         else indice:=ord(palabra[i])-96;
 
           if(raiz^.hijos[indice] = nil)  then bool:=False
           else raiz:=raiz^.hijos[indice];
