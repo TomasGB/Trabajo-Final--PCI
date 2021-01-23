@@ -15,6 +15,7 @@ type
     Timer1: TTimer;
     OpenDialog1: TOpenDialog;
     BtnClearMemo: TButton;
+    Label1: TLabel;
     procedure Timer1Timer(Sender: TObject);
     procedure btnAgregarAlDiccionarioClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
