@@ -5,7 +5,7 @@ program test;
 uses
   SysUtils;
 
-const LETRAS =26; //sin contar la ñ
+const LETRAS =27;
 
 type
     TPnodo = ^Tnodo;
@@ -38,6 +38,17 @@ begin
       nodo^.hijos[i]:=nil;
 end;
 
+procedure destruirNodo(FDPaux:boolean;var nodo:TPnodo);
+var i:integer;
+begin
+    nodo.FDP:=False;
+    for i:=1 to letras do
+    begin
+         dispose(nodo.hijos[i]);
+         nodo.hijos[i]:=nil;
+    end;
+end;
+
 procedure InsertarPalabra(palabra:String;raiz:TTrie);
 var i,long,pos:Integer;
     FDPaux:Boolean;
@@ -47,7 +58,8 @@ begin
 
     for i:=1 to long do
         begin
-            pos:= Ord(palabra[i])-96;
+            if palabra[i] = 'ñ' then pos:=27
+            else pos:= Ord(palabra[i])-96;
 
             if i = long then FDPaux:=True
             else FDPaux:=False;
@@ -75,7 +87,9 @@ begin
     bool:=True;
     for i:=1 to long do
     begin
-          indice:=ord(palabra[i])-96;
+          if palabra[i] = 'ñ' then indice:=27
+          else indice:=ord(palabra[i])-96;
+
           if raiz^.hijos[indice] = nil then bool:=False
           else
             begin
@@ -87,14 +101,18 @@ end;
 
 procedure MostrarTrie(pref:string;raiz:TTrie);
 var i:integer;
-    p:String;
+    p, letra:String;
 begin
     for i:=1 to letras do
     begin
         if raiz^.hijos[i] <> nil then
         begin
-            p:=pref+chr(ord(i+96));
+            if i=27 then letra:='ñ'
+            else letra:=chr(ord(i+96));
+
+            p:=pref+letra;
             MostrarTrie(p,raiz^.hijos[i]);
+
             if (raiz.hijos[i].FDP = true)then
             begin
                 Write(p,'  ');
@@ -105,7 +123,30 @@ begin
 
 end;
 
-procedure buscarUltimaPalabra(palabras:string;raiz:TTrie; var ultimaPalabra:string);
+procedure BuscarPorPref(pref:string;raiz:TTrie);
+var long,i,pos:integer;
+    check:boolean;
+begin
+    long:= length(pref);
+    check:=True;
+    for i:=1 to long do
+    begin
+        if pref[i]='ñ' then pos := 27
+        else pos:=ord(pref[i])-96;
+
+        if raiz^.hijos[pos] = nil then check:=False
+        else
+        begin
+            if pref[i] = 'ñ' then raiz:=raiz^.hijos[27]
+            else raiz:=raiz^.hijos[ord(pref[i])-96];
+        end;
+    end;
+
+    if check = True then mostrarTrie(pref,raiz)
+    else writeln('No se encuentra la palabra: ',pref);
+end;
+
+procedure parsearUltimaPalabra(palabras:string;raiz:TTrie; var ultimaPalabra:string);
 var i:integer;
     esUltimaPalabra:boolean;
 begin
@@ -113,9 +154,11 @@ begin
 esUltimaPalabra:=False;
 ultimaPalabra:='';
 i:=1;
+
 while not esUltimaPalabra do
 begin
     while (palabras[i]<>' ') and (i < length(palabras)) do
+    //Este bucle se utiliza para acumular la palabra.
         begin
             ultimaPalabra:=ultimaPalabra+palabras[i];
             i:=i+1;
@@ -123,6 +166,7 @@ begin
 
 
     if (palabras[i]<> ' ') and (i <> length(palabras)) then
+    //Esta condicion checkea si hay mas de una palabra en el string.
     begin
         esUltimaPalabra:=False;
         ultimaPalabra:='';
@@ -144,22 +188,6 @@ begin
             end;
 end;
 writeln(ultimaPalabra);
-end;
-
-
-procedure BuscarPorPref(pref:string;raiz:TTrie);
-var long,i:integer;
-    check:boolean;
-begin
-    long:= length(pref);
-    check:=True;
-    for i:=1 to long do
-    begin
-        if raiz^.hijos[ord(pref[i])-96] = nil then check:=False
-        else raiz:=raiz^.hijos[ord(pref[i])-96] end;
-
-    if check = True then mostrarTrie(pref,raiz)
-    else writeln('no existe la palabra: ',pref);
 end;
 
 
@@ -186,10 +214,10 @@ writeln('insertar pero');
 b:=BuscarPalabra('pero',r);
 writeln('se inserto pero en el trie?: ',b);
 writeln('');
-InsertarPalabra('perenne',r);
-writeln('insertar perenne');
-c:=BuscarPalabra('perenne',r);
-writeln('se inserto perenne en el trie?: ',c);
+InsertarPalabra('perrera',r);
+writeln('insertar perrera');
+c:=BuscarPalabra('perrera',r);
+writeln('se inserto perrera en el trie?: ',c);
 writeln('');
 InsertarPalabra('perra',r);
 writeln('insertar perra');
@@ -240,7 +268,7 @@ writeln('');
 writeln('Test procedimiento buscarUltimaPalabra');
 writeln('');
 writeln('Texto ingresado: ''prueba ultima palabra''');
-write('Resultado: ');buscarUltimaPalabra('prueba ultima palabra',r,ultimaPalabra);
+write('Resultado: ');parsearUltimaPalabra('prueba ultima palabra',r,ultimaPalabra);
 writeln('');
 writeln('-------------------------------------------------------');
 readln;
