@@ -54,7 +54,7 @@ begin
     begin
         if raiz^.hijos[i] <> nil then
         begin
-            if i=27 then letra:='ñ' // 164 es el codigo ascii de la ñ
+            if i=27 then letra:='ñ'
             else letra:=chr(ord(i+96));
 
             p:=pref+letra;
