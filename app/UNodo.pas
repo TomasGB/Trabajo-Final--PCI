@@ -17,6 +17,7 @@ type
                 end;
 
 procedure crearNodo(FDPaux:boolean;var nodo:TPnodo);
+procedure destruirNodo(FDPaux:boolean;var nodo:TPnodo);
 
 implementation
 

@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 556
-  Top = 106
+  Left = 416
+  Top = 115
   Width = 675
   Height = 568
   Caption = 'Form1'
@@ -14,16 +14,31 @@ object Form1: TForm1
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
+  object Label1: TLabel
+    Left = 48
+    Top = 24
+    Width = 564
+    Height = 20
+    Caption = 
+      'Trabajo Final PCI    Tom'#225's Agust'#237'n Gomez Bermudez, Primer Cuatri' +
+      'mestre 2020'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object Edit1: TEdit
     Left = 16
-    Top = 32
+    Top = 88
     Width = 625
     Height = 21
     TabOrder = 0
   end
   object Memo1: TMemo
     Left = 16
-    Top = 64
+    Top = 120
     Width = 625
     Height = 329
     Font.Charset = DEFAULT_CHARSET
@@ -43,7 +58,7 @@ object Form1: TForm1
   end
   object btnMostrarDiccionario: TButton
     Left = 208
-    Top = 408
+    Top = 464
     Width = 89
     Height = 41
     Caption = 'Mostrar diccionario'
@@ -53,7 +68,7 @@ object Form1: TForm1
   end
   object btnAgregarAlDiccionario: TButton
     Left = 352
-    Top = 408
+    Top = 464
     Width = 89
     Height = 41
     Caption = 'Agregar al diccionario'
@@ -63,7 +78,7 @@ object Form1: TForm1
   end
   object BtnClearMemo: TButton
     Left = 72
-    Top = 408
+    Top = 464
     Width = 91
     Height = 41
     Caption = 'Clear Memo'
@@ -72,11 +87,11 @@ object Form1: TForm1
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
-    Left = 192
-    Top = 464
+    Left = 520
+    Top = 472
   end
   object OpenDialog1: TOpenDialog
-    Left = 232
-    Top = 464
+    Left = 560
+    Top = 472
   end
 end

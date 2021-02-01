@@ -12,7 +12,6 @@ type
     procedure inicializarTrie(var raiz:TTrie);
     procedure InsertarPalabra(palabra:String;raiz:TTrie);
     function BuscarPalabra(palabra:String;raiz:TTrie):Boolean;
-    procedure agregarPalabraEnDiccionario(palabra:string;var diccionario:Text);
 
 implementation
 
@@ -27,13 +26,7 @@ begin
       end;
 end;
 
-procedure agregarPalabraEnDiccionario(palabra:string;var diccionario:Text);
-begin
-    assign(diccionario,'diccionario.txt' );
-    append(diccionario);
-    writeLn(diccionario,palabra);
-    close(diccionario);
-end;
+
 
 procedure InsertarPalabra(palabra:String;raiz:TTrie);
 var i,long,pos:Integer;

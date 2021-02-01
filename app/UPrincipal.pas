@@ -172,6 +172,14 @@ begin
 
 end;
 
+procedure agregarEnDiccionario(palabra:string;var diccionario:Text);
+begin
+    assign(diccionario,'diccionario.txt' );
+    append(diccionario);
+    writeLn(diccionario,palabra);
+    close(diccionario);
+end;
+
 procedure TForm1.btnAgregarAlDiccionarioClick(Sender: TObject);
 var esta:boolean;
 begin
@@ -182,7 +190,7 @@ else
     begin
         parsearUltimaPalabra(edit1.text,raiz,ultimaPalabra);
         InsertarPalabra(ultimaPalabra,raiz);
-        agregarPalabraEnDiccionario(UTF8Encode(ultimaPalabra),diccionario);
+        agregarEnDiccionario(UTF8Encode(ultimaPalabra),diccionario);
     end;
 end;
 

@@ -30,3 +30,4 @@ zorro
 montaña
 ñandu
 montañoso
+dado
