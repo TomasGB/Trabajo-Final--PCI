@@ -1,3 +1,4 @@
+﻿
 auto
 automovil
 automovilista
@@ -31,3 +32,5 @@ montaña
 ñandu
 montañoso
 dado
+locomotora
+loco
