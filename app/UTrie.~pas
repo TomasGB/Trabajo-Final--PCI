@@ -12,7 +12,6 @@ type
     procedure inicializarTrie(var raiz:TTrie);
     procedure InsertarPalabra(palabra:String;raiz:TTrie);
     function BuscarPalabra(palabra:String;raiz:TTrie):Boolean;
-    procedure agregarPalabraEnDiccionario(palabra:string;var diccionario:Text);
 
 implementation
 
@@ -27,13 +26,7 @@ begin
       end;
 end;
 
-procedure agregarPalabraEnDiccionario(palabra:string;var diccionario:Text);
-begin
-    assign(diccionario,'diccionario.txt' );
-    append(diccionario);
-    writeLn(diccionario,palabra);
-    close(diccionario);
-end;
+
 
 procedure InsertarPalabra(palabra:String;raiz:TTrie);
 var i,long,pos:Integer;
@@ -44,7 +37,7 @@ begin
 
     for i:=1 to long do
         begin
-            if palabra[i] = 'ñ' then pos:=15
+            if palabra[i] = 'ñ' then pos:=27
             else pos:= Ord(palabra[i])-96;
 
             if i = long then FDPaux:=True
@@ -72,7 +65,7 @@ begin
     
     for i:=1 to long do
     begin
-         if palabra[i] = 'ñ' then indice:=15
+         if palabra[i] = 'ñ' then indice:=27
          else indice:=ord(palabra[i])-96;
 
           if(raiz^.hijos[indice] = nil)  then bool:=False

@@ -43,14 +43,21 @@ begin
             if i = long then FDPaux:=True
             else FDPaux:=False;
 
-            crearNodo(FDPaux,nuevoNodo);
-
             if (raiz^.hijos[pos] = Nil) then
             begin
+                crearNodo(FDPaux,nuevoNodo);
                 raiz^.hijos[pos]:=nuevoNodo;
                 raiz:=raiz^.hijos[pos];
             end
-            else raiz:=raiz^.hijos[pos];
+            else
+                begin
+                    if (i=long) then
+                        begin
+                            raiz:=raiz^.hijos[pos];
+                            raiz^.FDP := FDPaux;
+                        end
+                    else raiz:=raiz^.hijos[pos];
+                end;
         end;
 end;
 
@@ -69,8 +76,15 @@ begin
          else indice:=ord(palabra[i])-96;
 
           if(raiz^.hijos[indice] = nil)  then bool:=False
-          else raiz:=raiz^.hijos[indice];
-
+          else
+              begin
+                    if char(indice+96) = palabra[i] then
+                        begin
+                            if (i = long) and (raiz^.FDP = False) then bool:=False
+                            else bool:=True;
+                        end
+                    else raiz:=raiz^.hijos[indice];
+              end;
     end;
     BuscarPalabra:=bool;
 end;

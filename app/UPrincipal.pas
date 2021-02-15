@@ -16,11 +16,13 @@ type
     OpenDialog1: TOpenDialog;
     BtnClearMemo: TButton;
     Label1: TLabel;
+    ListBox1: TListBox;
     procedure Timer1Timer(Sender: TObject);
     procedure btnAgregarAlDiccionarioClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnMostrarDiccionarioClick(Sender: TObject);
     procedure BtnClearMemoClick(Sender: TObject);
+    procedure ListBox1Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -40,7 +42,7 @@ implementation
 
 {$R *.dfm}
 
-procedure MostrarTrie(pref:string;raiz:TTrie;memo:TMemo);
+procedure MostrarTrie(pref:string;raiz:TTrie;ListBox:TListBox);
 {
     Este procedimeinto se encarga de mostrar en el memo todas las posibles
     recomendaciones de palabras dado el prefijo de la ultima palabra que
@@ -48,7 +50,7 @@ procedure MostrarTrie(pref:string;raiz:TTrie;memo:TMemo);
 }
 var i:integer;
     p,letra:String;
-                      
+
 begin
     for i:=1 to letras do
     begin
@@ -58,23 +60,21 @@ begin
             else letra:=chr(ord(i+96));
 
             p:=pref+letra;
-            MostrarTrie(p,raiz^.hijos[i],memo);
+            MostrarTrie(p,raiz^.hijos[i],ListBox);
 
             if (raiz^.hijos[i].FDP = true) then
             begin
-                memo.Lines.BeginUpdate;
-                memo.lines.add(p);
-                memo.lines.add('');
-                memo.Lines.EndUpdate;
+                ListBox.Items.BeginUpdate;
+                ListBox.Items.add(p);
+                ListBox.Items.add('');
+                ListBox.Items.EndUpdate;
             end;
         end
         else ;
     end;
-
 end;
 
-
-procedure BuscarPorPref(pref:string;raiz:TTrie;memo:TMemo);
+procedure BuscarPorPref(pref:string;raiz:TTrie;ListBox:TListBox);
 {
     Este procedimeinto se encarga de buscar todas las posibles recomendaciones
     de palabras dado lo que escriba el usuario.
@@ -105,8 +105,8 @@ begin
         end;
     end;
 
-    if check = True then mostrarTrie(pref,raiz,memo)
-    else memo.lines.add('No se encuentra la palabra: '+ pref);
+    if check = True then mostrarTrie(pref,raiz,Listbox)
+    else  ListBox.items.add('No se encuentra la palabra: '+ pref);
 end;
 
 
@@ -164,10 +164,11 @@ begin
     if edit1.text <> '' then
     begin
         memo1.clear;
+        ListBox1.Clear;
         Timer1.Enabled := True;
         Timer1.Interval := 500;
         parsearUltimaPalabra(edit1.text,raiz,ultimaPalabra);
-        BuscarPorPref(ultimaPalabra,raiz,memo1);
+        BuscarPorPref(ultimaPalabra,raiz,ListBox1);
     end;
 
 end;
@@ -212,33 +213,43 @@ end;
 procedure TForm1.FormCreate(Sender: TObject);
 begin
     memo1.Clear;
+    ListBox1.Clear;
     inicializarTrie(raiz);
     CargarDiccionario(lista,raiz);
 
 end;
 
-procedure mostrarDiccionario(lista:Tstringlist;memo:TMemo);
+procedure mostrarDiccionario(lista:Tstringlist;{memo:TMemo}listbox:TListBox);
 var i:integer;
 begin
     Lista:= TStringList.Create;
     Lista.LoadFromFile('diccionario.txt');
 
-    for i:=0 to lista.count-1 do
+    for i:=1 to lista.count-1 do
     begin
-        memo.lines.add(UTF8Decode(Lista.Strings[i]));
+        listbox.items.add(UTF8Decode(Lista.Strings[i]));
     end;
 
 end;
 
 procedure TForm1.btnMostrarDiccionarioClick(Sender: TObject);
 begin
-mostrarDiccionario(lista,memo1);
+mostrarDiccionario(lista,ListBox1);
 
 end;
 
 procedure TForm1.BtnClearMemoClick(Sender: TObject);
 begin
     memo1.Clear;
+    listbox1.Clear;
+end;
+
+
+procedure TForm1.ListBox1Click(Sender: TObject);
+begin
+// si no hay nada seleccionado el ItemIndex es -1
+if (ListBox1.ItemIndex >=0) then edit1.text:= ListBox1.Items[ListBox1.itemIndex];
+
 end;
 
 end.

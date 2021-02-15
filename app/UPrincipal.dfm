@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 416
-  Top = 115
+  Left = 559
+  Top = 104
   Width = 675
   Height = 568
   Caption = 'Form1'
@@ -39,7 +39,7 @@ object Form1: TForm1
   object Memo1: TMemo
     Left = 16
     Top = 120
-    Width = 625
+    Width = 257
     Height = 329
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -84,6 +84,15 @@ object Form1: TForm1
     Caption = 'Clear Memo'
     TabOrder = 4
     OnClick = BtnClearMemoClick
+  end
+  object ListBox1: TListBox
+    Left = 376
+    Top = 120
+    Width = 241
+    Height = 337
+    ItemHeight = 13
+    TabOrder = 5
+    OnClick = ListBox1Click
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
