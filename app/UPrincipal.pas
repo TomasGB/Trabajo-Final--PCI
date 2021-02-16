@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls,UTrie, UNodo, ExtCtrls;
+  Dialogs, StdCtrls,UTrie, ExtCtrls;
 
 type
   TForm1 = class(TForm)
@@ -34,7 +34,7 @@ var
   Form1: TForm1;
   raiz:TTrie;
   lista:Tstringlist;
-  ultimaPalabra:string;
+  ultimaPalabra, frase:string;
   diccionario:Text;
 
 
@@ -49,7 +49,8 @@ procedure MostrarTrie(pref:string;raiz:TTrie;ListBox:TListBox);
     escribio el usuario.
 }
 var i:integer;
-    p,letra:String;
+    p:String;
+    letra:char;
 
 begin
     for i:=1 to letras do
@@ -65,8 +66,9 @@ begin
             if (raiz^.hijos[i].FDP = true) then
             begin
                 ListBox.Items.BeginUpdate;
-                ListBox.Items.add(p);
-                ListBox.Items.add('');
+                //ListBox.Items.add(p);
+                //ListBox.Items.add('');
+                listbox.items.Append(p);
                 ListBox.Items.EndUpdate;
             end;
         end
@@ -91,8 +93,10 @@ begin
     check:=True;
     for i:=1 to long do
     begin
-        if pref[i]='ñ' then pos := 27
-        else pos:=ord(pref[i])-96;
+        if pref[i]=' ' then
+        else
+            if pref[i]='ñ' then pos := 27
+            else pos:=ord(pref[i])-96;
 
         if raiz^.hijos[pos] = nil then
             begin
@@ -110,7 +114,7 @@ begin
 end;
 
 
-procedure parsearUltimaPalabra(palabras:string;raiz:TTrie; var ultimaPalabra:string);
+procedure parsearUltimaPalabra(palabras:string;raiz:TTrie; var ultimaPalabra, frase:string);
 {
     Este procedimiento se encarga de recorrer el string que ingresa el usuario,
     separando las palabras por espacios y retornando la ultima en la variable
@@ -122,6 +126,7 @@ begin
 
 esUltimaPalabra:=False;
 ultimaPalabra:='';
+frase:='';
 i:=1;
 
 while not esUltimaPalabra do
@@ -137,6 +142,7 @@ begin
     //Esta condicion checkea si hay mas de una palabra en el string.
         begin
             esUltimaPalabra:=False;
+            frase:=frase+ultimaPalabra;
             ultimaPalabra:='';
             i:=i+1;
         end
@@ -145,6 +151,7 @@ begin
             if i < length(palabras) then
                 begin
                     esUltimaPalabra:=False;
+                    frase:=frase+ultimaPalabra+' ';
                     ultimaPalabra:='';
                     i:=i+1;
                 end
@@ -161,15 +168,15 @@ end;
 procedure TForm1.Timer1Timer(Sender: TObject);
 begin
 
-    if edit1.text <> '' then
+    if (edit1.text <> '') and (edit1.text <> ' ')then
     begin
-        memo1.clear;
         ListBox1.Clear;
         Timer1.Enabled := True;
         Timer1.Interval := 500;
-        parsearUltimaPalabra(edit1.text,raiz,ultimaPalabra);
+        parsearUltimaPalabra(lowercase(edit1.text),raiz,ultimaPalabra,frase);
         BuscarPorPref(ultimaPalabra,raiz,ListBox1);
-    end;
+    end
+    else ;
 
 end;
 
@@ -189,7 +196,7 @@ esta:= BuscarPalabra(edit1.Text,raiz);
 if esta then showMessage('Esta palabra ya esta en el diccionario')
 else
     begin
-        parsearUltimaPalabra(edit1.text,raiz,ultimaPalabra);
+        parsearUltimaPalabra(lowercase(edit1.text),raiz,ultimaPalabra,frase);
         InsertarPalabra(ultimaPalabra,raiz);
         agregarEnDiccionario(UTF8Encode(ultimaPalabra),diccionario);
     end;
@@ -199,10 +206,10 @@ procedure CargarDiccionario(lista:Tstringlist;raiz:TTrie);
 var i:integer;
 begin
 
-Lista:= TStringList.Create;
+Lista := TStringList.Create;
 Lista.LoadFromFile('diccionario.txt');
 
-for i:=0 to lista.count-1 do
+for i:=1 to lista.count-1 do
 begin
     InsertarPalabra(Utf8Decode(Lista.Strings[i]),raiz);
 end;
@@ -216,24 +223,26 @@ begin
     ListBox1.Clear;
     inicializarTrie(raiz);
     CargarDiccionario(lista,raiz);
-
 end;
 
-procedure mostrarDiccionario(lista:Tstringlist;{memo:TMemo}listbox:TListBox);
+procedure mostrarDiccionario(lista:Tstringlist;listbox:TListBox);
 var i:integer;
+//p:string;
 begin
     Lista:= TStringList.Create;
     Lista.LoadFromFile('diccionario.txt');
-
+    //Lista.Sort;
     for i:=1 to lista.count-1 do
     begin
-        listbox.items.add(UTF8Decode(Lista.Strings[i]));
+        listbox.items.Append(UTF8Decode(Lista.Strings[i]));
+        //p:=UTF8Decode(Lista.Strings[i]);
+        //listbox.items.Append(inttostr(ord(p[1])));
     end;
-
 end;
 
 procedure TForm1.btnMostrarDiccionarioClick(Sender: TObject);
 begin
+ListBox1.clear;
 mostrarDiccionario(lista,ListBox1);
 
 end;
@@ -247,8 +256,9 @@ end;
 
 procedure TForm1.ListBox1Click(Sender: TObject);
 begin
+parsearUltimaPalabra(lowercase(edit1.text),raiz,ultimaPalabra,frase);
 // si no hay nada seleccionado el ItemIndex es -1
-if (ListBox1.ItemIndex >=0) then edit1.text:= ListBox1.Items[ListBox1.itemIndex];
+if (ListBox1.ItemIndex >=0) then edit1.text:=frase + ListBox1.Items[ListBox1.itemIndex];
 
 end;
 

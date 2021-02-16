@@ -4,16 +4,47 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, UNodo;
+  Dialogs, StdCtrls;
+
+const LETRAS =27;
 
 type
+    TPnodo = ^Tnodo;
+    TLetras = array [1..LETRAS] of TPnodo;
+    Tnodo = record
+                FDP:boolean;
+                hijos:TLetras;
+                end;
     TTrie = TPnodo;
 
+    procedure crearNodo(FDPaux:boolean;var nodo:TPnodo);
+    procedure destruirNodo(FDPaux:boolean;var nodo:TPnodo);
     procedure inicializarTrie(var raiz:TTrie);
     procedure InsertarPalabra(palabra:String;raiz:TTrie);
     function BuscarPalabra(palabra:String;raiz:TTrie):Boolean;
 
+
 implementation
+
+procedure crearNodo(FDPaux:boolean;var nodo:TPnodo);
+var i:integer;
+begin
+    new(nodo);
+    nodo^.FDP:=FDPaux;
+    for i:=1 to LETRAS do
+      nodo^.hijos[i]:=nil;
+end;
+
+procedure destruirNodo(FDPaux:boolean;var nodo:TPnodo);
+var i:integer;
+begin
+    nodo.FDP:=False;
+    for i:=1 to letras do
+    begin
+         dispose(nodo.hijos[i]);
+         nodo.hijos[i]:=nil;
+    end;
+end;
 
 procedure inicializarTrie(var raiz:TTrie);
 var i:Integer;
@@ -88,6 +119,8 @@ begin
     end;
     BuscarPalabra:=bool;
 end;
+
+
 
 
 end.
