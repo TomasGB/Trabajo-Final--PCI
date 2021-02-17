@@ -100,7 +100,7 @@ var i,long,indice:integer;
 begin
     long:=Length(palabra);
     bool:=True;
-    
+
     for i:=1 to long do
     begin
          if palabra[i] = 'ñ' then indice:=27
@@ -109,12 +109,7 @@ begin
           if(raiz^.hijos[indice] = nil)  then bool:=False
           else
               begin
-                    if char(indice+96) = palabra[i] then
-                        begin
-                            if (i = long) and (raiz^.FDP = False) then bool:=False
-                            else bool:=True;
-                        end
-                    else raiz:=raiz^.hijos[indice];
+                    raiz:=raiz^.hijos[indice];
               end;
     end;
     BuscarPalabra:=bool;
