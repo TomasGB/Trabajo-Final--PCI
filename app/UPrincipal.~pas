@@ -148,7 +148,7 @@ begin
         end
     else
         begin
-            if i < length(palabras) then
+            if (i < length(palabras)){ and (palabras[length(palabras)]<>' ')  }then
                 begin
                     esUltimaPalabra:=False;
                     frase:=frase+ultimaPalabra+' ';
