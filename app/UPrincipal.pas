@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls,UTrie, ExtCtrls;
+  Dialogs, StdCtrls, ExtCtrls, UTrie;
 
 type
   TForm1 = class(TForm)
@@ -298,7 +298,7 @@ procedure TForm1.BtnClearClick(Sender: TObject);
 begin
     memo1.Clear;
     listbox1.Clear;
-    listbox1.Clear;
+    listbox2.Clear;
     edit1.Clear;
     edit2.Clear;
 end;
@@ -309,6 +309,14 @@ begin
 parsearUltimaPalabra(lowercase(edit1.text),raiz,ultimaPalabra,frase);
 // si no hay nada seleccionado el ItemIndex es -1
 if (ListBox1.ItemIndex >=0) then edit1.text:=frase + ListBox1.Items[ListBox1.itemIndex];
+
+end;
+
+procedure TForm1.ListBox2Click(Sender: TObject);
+begin
+parsearUltimaPalabra(lowercase(edit2.text),raiz,ultimaPalabra,frase);
+
+if (ListBox2.ItemIndex >=0) then edit2.text:=frase + ListBox2.Items[ListBox2.itemIndex];
 
 end;
 
@@ -328,12 +336,6 @@ listBox2.Clear;
 edit2.Clear;
 end;
 
-procedure TForm1.ListBox2Click(Sender: TObject);
-begin
-parsearUltimaPalabra(lowercase(edit2.text),raiz,ultimaPalabra,frase);
-// si no hay nada seleccionado el ItemIndex es -1
-if (ListBox2.ItemIndex >=0) then edit2.text:=frase + ListBox2.Items[ListBox2.itemIndex];
 
-end;
 
 end.

@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 131
-  Top = 84
+  Left = 151
+  Top = 90
   Width = 1113
   Height = 627
   Caption = 'Form1'
@@ -59,7 +59,7 @@ object Form1: TForm1
     Left = 8
     Top = 464
     Width = 313
-    Height = 30
+    Height = 21
     TabOrder = 0
   end
   object Memo1: TMemo
@@ -132,7 +132,7 @@ object Form1: TForm1
     Left = 344
     Top = 464
     Width = 313
-    Height = 30
+    Height = 21
     TabOrder = 6
   end
   object ListBox2: TListBox

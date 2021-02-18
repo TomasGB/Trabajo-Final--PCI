@@ -14,15 +14,26 @@ type
     btnAgregarAlDiccionario: TButton;
     Timer1: TTimer;
     OpenDialog1: TOpenDialog;
-    BtnClearMemo: TButton;
+    BtnClear: TButton;
     Label1: TLabel;
     ListBox1: TListBox;
+    Edit2: TEdit;
+    ListBox2: TListBox;
+    ButtonEnviar1: TButton;
+    ButtonEnviar2: TButton;
+    Label2: TLabel;
+    Label3: TLabel;
+    Timer2: TTimer;
     procedure Timer1Timer(Sender: TObject);
     procedure btnAgregarAlDiccionarioClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnMostrarDiccionarioClick(Sender: TObject);
-    procedure BtnClearMemoClick(Sender: TObject);
+    procedure BtnClearClick(Sender: TObject);
     procedure ListBox1Click(Sender: TObject);
+    procedure ButtonEnviar1Click(Sender: TObject);
+    procedure ButtonEnviar2Click(Sender: TObject);
+    procedure ListBox2Click(Sender: TObject);
+    procedure Timer2Timer(Sender: TObject);
 
   private
     { Private declarations }
@@ -66,8 +77,6 @@ begin
             if (raiz^.hijos[i].FDP = true) then
             begin
                 ListBox.Items.BeginUpdate;
-                //ListBox.Items.add(p);
-                //ListBox.Items.add('');
                 listbox.items.Append(p);
                 ListBox.Items.EndUpdate;
             end;
@@ -148,7 +157,7 @@ begin
         end
     else
         begin
-            if (i < length(palabras)){ and (palabras[length(palabras)]<>' ')  }then
+            if (i < length(palabras))then
                 begin
                     esUltimaPalabra:=False;
                     frase:=frase+ultimaPalabra+' ';
@@ -180,6 +189,21 @@ begin
 
 end;
 
+procedure TForm1.Timer2Timer(Sender: TObject);
+begin
+
+    if (edit2.text <> '') and (edit2.text <> ' ')then
+    begin
+        ListBox2.Clear;
+        Timer2.Enabled := True;
+        Timer2.Interval := 500;
+        parsearUltimaPalabra(lowercase(edit2.text),raiz,ultimaPalabra,frase);
+        BuscarPorPref(ultimaPalabra,raiz,ListBox2);
+    end
+    else ;
+
+end;
+
 procedure agregarEnDiccionario(palabra:string;var diccionario:Text);
 begin
     assign(diccionario,'diccionario.txt' );
@@ -191,15 +215,38 @@ end;
 procedure TForm1.btnAgregarAlDiccionarioClick(Sender: TObject);
 var esta:boolean;
 begin
-esta:= BuscarPalabra(edit1.Text,raiz);
 
-if esta then showMessage('Esta palabra ya esta en el diccionario')
+//mira si hay el edit1 esta vacio o no
+if (edit1.text = '') or (edit1.text = ' ') then
 else
-    begin
-        parsearUltimaPalabra(lowercase(edit1.text),raiz,ultimaPalabra,frase);
-        InsertarPalabra(ultimaPalabra,raiz);
-        agregarEnDiccionario(UTF8Encode(ultimaPalabra),diccionario);
-    end;
+begin
+    parsearUltimaPalabra(lowercase(edit1.text),raiz,ultimaPalabra,frase);
+    esta:= BuscarPalabra(ultimaPalabra,raiz);
+
+    if esta then showMessage('Esta palabra ya esta en el diccionario: '+ultimaPalabra)
+    else
+        begin
+            InsertarPalabra(ultimaPalabra,raiz);
+            agregarEnDiccionario(UTF8Encode(ultimaPalabra),diccionario);
+        end;
+end;
+
+//mira si hay el edit2 esta vacio o no
+if (edit2.text = '') or (edit2.text = ' ') then
+else
+begin
+    parsearUltimaPalabra(lowercase(edit2.text),raiz,ultimaPalabra,frase);
+    esta:= BuscarPalabra(ultimaPalabra,raiz);
+
+    if esta then showMessage('Esta palabra ya esta en el diccionario: '+ultimaPalabra)
+    else
+        begin
+            InsertarPalabra(ultimaPalabra,raiz);
+            agregarEnDiccionario(UTF8Encode(ultimaPalabra),diccionario);
+        end;
+
+end;
+
 end;
 
 procedure CargarDiccionario(lista:Tstringlist;raiz:TTrie);
@@ -247,10 +294,13 @@ mostrarDiccionario(lista,ListBox1);
 
 end;
 
-procedure TForm1.BtnClearMemoClick(Sender: TObject);
+procedure TForm1.BtnClearClick(Sender: TObject);
 begin
     memo1.Clear;
     listbox1.Clear;
+    listbox1.Clear;
+    edit1.Clear;
+    edit2.Clear;
 end;
 
 
@@ -259,6 +309,30 @@ begin
 parsearUltimaPalabra(lowercase(edit1.text),raiz,ultimaPalabra,frase);
 // si no hay nada seleccionado el ItemIndex es -1
 if (ListBox1.ItemIndex >=0) then edit1.text:=frase + ListBox1.Items[ListBox1.itemIndex];
+
+end;
+
+procedure TForm1.ButtonEnviar1Click(Sender: TObject);
+begin
+memo1.lines.add(' Usuario 1: '+edit1.text);
+memo1.lines.add('');
+listBox1.Clear;
+edit1.Clear;
+end;
+
+procedure TForm1.ButtonEnviar2Click(Sender: TObject);
+begin
+memo1.lines.add(' Usuario 2: '+edit2.text);
+memo1.lines.add('');
+listBox2.Clear;
+edit2.Clear;
+end;
+
+procedure TForm1.ListBox2Click(Sender: TObject);
+begin
+parsearUltimaPalabra(lowercase(edit2.text),raiz,ultimaPalabra,frase);
+// si no hay nada seleccionado el ItemIndex es -1
+if (ListBox2.ItemIndex >=0) then edit2.text:=frase + ListBox2.Items[ListBox2.itemIndex];
 
 end;
 
