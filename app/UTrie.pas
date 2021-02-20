@@ -22,8 +22,9 @@ type
     procedure inicializarTrie(var raiz:TTrie);
     procedure InsertarPalabra(palabra:String;raiz:TTrie);
     function BuscarPalabra(palabra:String;raiz:TTrie):Boolean;
+    procedure eliminarPalabra(palabra:string;raiz:TTrie);
 
-
+var diccionario2:Text;
 implementation
 
 procedure crearNodo(FDPaux:boolean;var nodo:TPnodo);
@@ -111,11 +112,65 @@ begin
               begin
                     raiz:=raiz^.hijos[indice];
               end;
+
+          if (i=long) and (raiz^.FDP = False) then bool:=False
+          else bool:=True;
     end;
     BuscarPalabra:=bool;
 end;
 
+procedure eliminarPalabra(palabra:string;raiz:TTrie);
+var i,j,k,l,long,indice:Integer;
+    masPalabras, nodosHermanos:Boolean;
+    raizOriginal:TTrie;
+    nuevaPalabra:string;
 
+begin
+    raizOriginal:=raiz;
+    long:=Length(palabra);
+    masPalabras:=False;
+    nodosHermanos:=False;
+    j:=1;
+    k:=1;
+    nuevaPalabra:='';
+
+    // Este bucle lleva la raiz a la ultima letra
+    for i:=1 to long do
+    begin
+        if palabra[i] = 'ñ' then indice:=27
+        else indice:=ord(palabra[i])-96;
+
+        raiz:=raiz^.hijos[indice];
+    end;
+
+    // Checkea si es raiz de una palabra mas larga
+    while (masPalabras=False) and (j<=Letras) do
+    begin
+        if raiz^.hijos[j] <> Nil then
+        begin
+            masPalabras:=True;
+            raiz^.FDP:=False;
+        end;
+        j:=j+1;
+    end;
+
+    // Checkea si hay nodos hermanos
+    while (nodosHermanos=False) and (k<=Letras)do
+    begin
+        if raiz.hijos[k]<>Nil then nodosHermanos:=True;
+        k:=k+1;
+    end;
+
+    // Si no era raiz de otra palabra y no habia nodos hermanos, destruye el nodo.
+    if (masPalabras = False) and (masPalabras=False) then destruirNodo(False, raiz);
+
+    for l:=1 to (long-1) do
+    begin
+        nuevaPalabra:=nuevaPalabra+palabra[l];
+    end;
+    if nuevaPalabra <> '' then eliminarPalabra(nuevaPalabra,raizOriginal);
+
+end;
 
 
 end.
