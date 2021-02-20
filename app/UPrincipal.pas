@@ -24,6 +24,8 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Timer2: TTimer;
+    Edit3: TEdit;
+    ButtonEliminar: TButton;
     procedure Timer1Timer(Sender: TObject);
     procedure btnAgregarAlDiccionarioClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -34,6 +36,7 @@ type
     procedure ButtonEnviar2Click(Sender: TObject);
     procedure ListBox2Click(Sender: TObject);
     procedure Timer2Timer(Sender: TObject);
+    procedure ButtonEliminarClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -44,9 +47,9 @@ type
 var
   Form1: TForm1;
   raiz:TTrie;
-  lista:Tstringlist;
+  lista,lista2:Tstringlist;
   ultimaPalabra, frase:string;
-  diccionario:Text;
+  diccionario,diccionario2:TextFile;
 
 
 implementation
@@ -102,7 +105,8 @@ begin
     check:=True;
     for i:=1 to long do
     begin
-        if pref[i]=' ' then
+        //255 es el ASCII de espacio
+        if (ord(pref[i])= 255) then
         else
             if pref[i]='ñ' then pos := 27
             else pos:=ord(pref[i])-96;
@@ -140,7 +144,7 @@ i:=1;
 
 while not esUltimaPalabra do
 begin
-    while (palabras[i]<>' ') and (i < length(palabras)) do
+    while {(palabras[i]<>' ')and (palabras[i]<>'') and }(i < length(palabras)) do
     //Este bucle se utiliza para acumular la palabra.
         begin
             ultimaPalabra:=ultimaPalabra+palabras[i];
@@ -336,6 +340,48 @@ listBox2.Clear;
 edit2.Clear;
 end;
 
+////////////////////////////////////////////////////////////////////////////////
+procedure actualizarDiccionario(pref:string;raiz:TTrie);
+var i:integer;
+    p:String;
+    letra:char;
 
+begin
+    for i:=1 to letras do
+    begin
+        if raiz^.hijos[i] <> nil then
+        begin
+            if i=27 then letra:='ñ'
+            else letra:=chr(ord(i+96));
+
+            p:=pref+letra;
+            actualizarDiccionario(p,raiz^.hijos[i]);
+
+            if (raiz^.hijos[i].FDP = true) then
+            begin
+                append(diccionario);
+                WriteLn(diccionario,p);
+                CloseFile(diccionario);
+            end;
+        end
+        else ;
+    end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.ButtonEliminarClick(Sender: TObject);
+begin
+if (edit3.Text <>'') or (edit3.Text <>'')then
+eliminarPalabra(lowercase(edit3.text),raiz);
+
+//Para el espacio al iniciar el archivo
+rewrite(diccionario,'diccionario.txt');
+append(diccionario);
+WriteLn(diccionario,'');
+CloseFile(diccionario);
+
+actualizarDiccionario('',raiz);
+end;
 
 end.

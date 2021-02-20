@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls,UTrie, ExtCtrls;
+  Dialogs, StdCtrls, ExtCtrls, UTrie;
 
 type
   TForm1 = class(TForm)
@@ -24,6 +24,8 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Timer2: TTimer;
+    Edit3: TEdit;
+    ButtonEliminar: TButton;
     procedure Timer1Timer(Sender: TObject);
     procedure btnAgregarAlDiccionarioClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -34,6 +36,7 @@ type
     procedure ButtonEnviar2Click(Sender: TObject);
     procedure ListBox2Click(Sender: TObject);
     procedure Timer2Timer(Sender: TObject);
+    procedure ButtonEliminarClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -44,9 +47,9 @@ type
 var
   Form1: TForm1;
   raiz:TTrie;
-  lista:Tstringlist;
+  lista,lista2:Tstringlist;
   ultimaPalabra, frase:string;
-  diccionario:Text;
+  diccionario,diccionario2:TextFile;
 
 
 implementation
@@ -298,7 +301,7 @@ procedure TForm1.BtnClearClick(Sender: TObject);
 begin
     memo1.Clear;
     listbox1.Clear;
-    listbox1.Clear;
+    listbox2.Clear;
     edit1.Clear;
     edit2.Clear;
 end;
@@ -309,6 +312,14 @@ begin
 parsearUltimaPalabra(lowercase(edit1.text),raiz,ultimaPalabra,frase);
 // si no hay nada seleccionado el ItemIndex es -1
 if (ListBox1.ItemIndex >=0) then edit1.text:=frase + ListBox1.Items[ListBox1.itemIndex];
+
+end;
+
+procedure TForm1.ListBox2Click(Sender: TObject);
+begin
+parsearUltimaPalabra(lowercase(edit2.text),raiz,ultimaPalabra,frase);
+
+if (ListBox2.ItemIndex >=0) then edit2.text:=frase + ListBox2.Items[ListBox2.itemIndex];
 
 end;
 
@@ -328,12 +339,48 @@ listBox2.Clear;
 edit2.Clear;
 end;
 
-procedure TForm1.ListBox2Click(Sender: TObject);
-begin
-parsearUltimaPalabra(lowercase(edit2.text),raiz,ultimaPalabra,frase);
-// si no hay nada seleccionado el ItemIndex es -1
-if (ListBox2.ItemIndex >=0) then edit2.text:=frase + ListBox2.Items[ListBox2.itemIndex];
+////////////////////////////////////////////////////////////////////////////////
+procedure actualizarDiccionario(pref:string;raiz:TTrie);
+var i:integer;
+    p:String;
+    letra:char;
 
+begin
+    for i:=1 to letras do
+    begin
+        if raiz^.hijos[i] <> nil then
+        begin
+            if i=27 then letra:='ñ'
+            else letra:=chr(ord(i+96));
+
+            p:=pref+letra;
+            actualizarDiccionario(p,raiz^.hijos[i]);
+
+            if (raiz^.hijos[i].FDP = true) then
+            begin
+                append(diccionario2);
+                WriteLn(diccionario2,p);
+                CloseFile(diccionario2);
+            end;
+        end
+        else ;
+    end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.ButtonEliminarClick(Sender: TObject);
+begin
+if (edit3.Text <>'') or (edit3.Text <>'')then
+eliminarPalabra(lowercase(edit3.text),raiz);
+
+//Para el espacio al iniciar el archivo
+rewrite(diccionario2,'diccionario2.txt');
+append(diccionario2);
+WriteLn(diccionario2,'');
+CloseFile(diccionario2);
+
+actualizarDiccionario('',raiz);
 end;
 
 end.

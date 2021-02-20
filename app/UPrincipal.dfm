@@ -1,8 +1,8 @@
 object Form1: TForm1
-  Left = 151
-  Top = 90
+  Left = 179
+  Top = 65
   Width = 1113
-  Height = 627
+  Height = 635
   Caption = 'Form1'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -31,7 +31,7 @@ object Form1: TForm1
   end
   object Label2: TLabel
     Left = 88
-    Top = 80
+    Top = 56
     Width = 79
     Height = 24
     Caption = 'Usuario 1'
@@ -44,7 +44,7 @@ object Form1: TForm1
   end
   object Label3: TLabel
     Left = 456
-    Top = 80
+    Top = 56
     Width = 79
     Height = 24
     Caption = 'Usuario 2'
@@ -57,7 +57,7 @@ object Form1: TForm1
   end
   object Edit1: TEdit
     Left = 8
-    Top = 464
+    Top = 440
     Width = 313
     Height = 21
     TabOrder = 0
@@ -113,7 +113,7 @@ object Form1: TForm1
   end
   object ListBox1: TListBox
     Left = 8
-    Top = 136
+    Top = 112
     Width = 313
     Height = 321
     Cursor = crHandPoint
@@ -130,14 +130,14 @@ object Form1: TForm1
   end
   object Edit2: TEdit
     Left = 344
-    Top = 464
+    Top = 440
     Width = 313
     Height = 21
     TabOrder = 6
   end
   object ListBox2: TListBox
     Left = 344
-    Top = 136
+    Top = 112
     Width = 313
     Height = 321
     Font.Charset = DEFAULT_CHARSET
@@ -152,7 +152,7 @@ object Form1: TForm1
   end
   object ButtonEnviar1: TButton
     Left = 8
-    Top = 505
+    Top = 481
     Width = 313
     Height = 25
     Caption = 'Enviar'
@@ -161,12 +161,28 @@ object Form1: TForm1
   end
   object ButtonEnviar2: TButton
     Left = 344
-    Top = 505
+    Top = 481
     Width = 313
     Height = 25
     Caption = 'Enviar'
     TabOrder = 9
     OnClick = ButtonEnviar2Click
+  end
+  object Edit3: TEdit
+    Left = 8
+    Top = 538
+    Width = 145
+    Height = 21
+    TabOrder = 10
+  end
+  object ButtonEliminar: TButton
+    Left = 168
+    Top = 538
+    Width = 153
+    Height = 25
+    Caption = 'Eliminar palabra'
+    TabOrder = 11
+    OnClick = ButtonEliminarClick
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
