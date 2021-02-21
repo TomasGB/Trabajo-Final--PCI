@@ -105,7 +105,8 @@ begin
     check:=True;
     for i:=1 to long do
     begin
-        if pref[i]=' ' then
+        //255 es el ASCII de espacio
+        if (ord(pref[i])= 255) then
         else
             if pref[i]='ñ' then pos := 27
             else pos:=ord(pref[i])-96;
@@ -143,7 +144,7 @@ i:=1;
 
 while not esUltimaPalabra do
 begin
-    while (palabras[i]<>' ') and (i < length(palabras)) do
+    while {(palabras[i]<>' ')and (palabras[i]<>'') and }(i < length(palabras)) do
     //Este bucle se utiliza para acumular la palabra.
         begin
             ultimaPalabra:=ultimaPalabra+palabras[i];
@@ -358,9 +359,9 @@ begin
 
             if (raiz^.hijos[i].FDP = true) then
             begin
-                append(diccionario2);
-                WriteLn(diccionario2,p);
-                CloseFile(diccionario2);
+                append(diccionario);
+                WriteLn(diccionario,p);
+                CloseFile(diccionario);
             end;
         end
         else ;
@@ -375,10 +376,10 @@ if (edit3.Text <>'') or (edit3.Text <>'')then
 eliminarPalabra(lowercase(edit3.text),raiz);
 
 //Para el espacio al iniciar el archivo
-rewrite(diccionario2,'diccionario2.txt');
-append(diccionario2);
-WriteLn(diccionario2,'');
-CloseFile(diccionario2);
+rewrite(diccionario,'diccionario.txt');
+append(diccionario);
+WriteLn(diccionario,'');
+CloseFile(diccionario);
 
 actualizarDiccionario('',raiz);
 end;

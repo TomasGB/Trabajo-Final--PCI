@@ -25,8 +25,6 @@ hielo
 hilo
 holanda
 holandesa
-holandes
-hola
 iglu
 iguana
 isla
@@ -76,3 +74,5 @@ yoyo
 zorra
 zorros
 zorro
+holandes
+hola

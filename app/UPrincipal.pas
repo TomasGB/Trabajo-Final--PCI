@@ -144,7 +144,7 @@ i:=1;
 
 while not esUltimaPalabra do
 begin
-    while {(palabras[i]<>' ')and (palabras[i]<>'') and }(i < length(palabras)) do
+    while (palabras[i]<>' ')and (i < length(palabras)) do
     //Este bucle se utiliza para acumular la palabra.
         begin
             ultimaPalabra:=ultimaPalabra+palabras[i];
@@ -310,10 +310,14 @@ end;
 
 procedure TForm1.ListBox1Click(Sender: TObject);
 begin
-parsearUltimaPalabra(lowercase(edit1.text),raiz,ultimaPalabra,frase);
-// si no hay nada seleccionado el ItemIndex es -1
-if (ListBox1.ItemIndex >=0) then edit1.text:=frase + ListBox1.Items[ListBox1.itemIndex];
+if edit1.text = '' then edit1.text:= ListBox1.Items[ListBox1.itemIndex]
+else
+    begin
 
+        parsearUltimaPalabra(lowercase(edit1.text),raiz,ultimaPalabra,frase);
+        // si no hay nada seleccionado el ItemIndex es -1
+        if (ListBox1.ItemIndex >=0) then edit1.text:=frase + ListBox1.Items[ListBox1.itemIndex];
+    end;
 end;
 
 procedure TForm1.ListBox2Click(Sender: TObject);
