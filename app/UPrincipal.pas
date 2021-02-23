@@ -26,6 +26,8 @@ type
     Timer2: TTimer;
     Edit3: TEdit;
     ButtonEliminar: TButton;
+    ButtonGuardarChat: TButton;
+    SaveDialog1: TSaveDialog;
     procedure Timer1Timer(Sender: TObject);
     procedure btnAgregarAlDiccionarioClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -37,6 +39,7 @@ type
     procedure ListBox2Click(Sender: TObject);
     procedure Timer2Timer(Sender: TObject);
     procedure ButtonEliminarClick(Sender: TObject);
+    procedure ButtonGuardarChatClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -49,7 +52,7 @@ var
   raiz:TTrie;
   lista,lista2:Tstringlist;
   ultimaPalabra, frase:string;
-  diccionario:TextFile;
+  diccionario,Chat:TextFile;
 
 
 implementation
@@ -406,6 +409,18 @@ WriteLn(diccionario,'');
 CloseFile(diccionario);
 
 actualizarDiccionario('',raiz);
+end;
+
+procedure TForm1.ButtonGuardarChatClick(Sender: TObject);
+var nombre:string;
+    ListaChat:TStrings;
+begin
+    nombre:='chats\'+formatdatetime('dd-mm-yyyy', now)+'_'+formatdatetime('hh_nn_ss', now)+'.txt';
+    ListaChat:=TStringList.Create;
+    ListaChat.AddStrings(Memo1.Lines);
+    ListaChat.SaveToFile(nombre);
+    ListaChat.Free;
+    showMessage('El chat se guardo correctamente');
 end;
 
 end.

@@ -84,7 +84,7 @@ begin
 
             letra:=calcularLetra(i);
             p:=pref+letra;
-            MostrarTrie(p,raiz^.hijos[i],ListBox);
+
 
             if (raiz^.hijos[i].FDP = true) then
             begin
@@ -92,6 +92,7 @@ begin
                 listbox.items.Append(p);
                 ListBox.Items.EndUpdate;
             end;
+            MostrarTrie(p,raiz^.hijos[i],ListBox);
         end
         else ;
     end;
@@ -219,7 +220,7 @@ begin
 
 end;
 
-////////////////////////////////////////////////////////////////////////////////
+
 procedure actualizarDiccionario(pref:string;raiz:TTrie);
 var i:integer;
     p:String;
@@ -234,7 +235,7 @@ begin
             letra:=calcularLetra(i);
 
             p:=pref+letra;
-            actualizarDiccionario(p,raiz^.hijos[i]);
+
 
             if (raiz^.hijos[i].FDP = true) then
             begin
@@ -242,12 +243,12 @@ begin
                 WriteLn(diccionario,p);
                 CloseFile(diccionario);
             end;
+            actualizarDiccionario(p,raiz^.hijos[i]);
         end
         else ;
     end;
 end;
 
-////////////////////////////////////////////////////////////////////////////////
 
 procedure agregarEnDiccionario(palabra:string;var diccionario:Text);
 begin
@@ -279,7 +280,7 @@ begin
     else
         begin
             InsertarPalabra(ultimaPalabra,raiz);
-            agregarEnDiccionario({UTF8Encode(}ultimaPalabra{)},diccionario);
+            agregarEnDiccionario(ultimaPalabra,diccionario);
         end;
 end;
 
@@ -294,7 +295,7 @@ begin
     else
         begin
             InsertarPalabra(ultimaPalabra,raiz);
-            agregarEnDiccionario({UTF8Encode(}ultimaPalabra{)},diccionario);
+            agregarEnDiccionario(ultimaPalabra,diccionario);
         end;
 
 end;
@@ -310,7 +311,7 @@ Lista.LoadFromFile('diccionario.txt');
 
 for i:=1 to lista.count-1 do
 begin
-    InsertarPalabra({Utf8Decode(}Lista.Strings[i]{)},raiz);
+    InsertarPalabra(Lista.Strings[i],raiz);
 end;
 
 end;
@@ -326,16 +327,14 @@ end;
 
 procedure mostrarDiccionario(lista:Tstringlist;listbox:TListBox);
 var i:integer;
-//p:string;
+
 begin
     Lista:= TStringList.Create;
     Lista.LoadFromFile('diccionario.txt');
-    //Lista.Sort;
+
     for i:=1 to lista.count-1 do
     begin
-        listbox.items.Append({UTF8Decode(}Lista.Strings[i]{)});
-        //p:=UTF8Decode(Lista.Strings[i]);
-        //listbox.items.Append(inttostr(ord(p[1])));
+        listbox.items.Append(Lista.Strings[i]);
     end;
 end;
 
