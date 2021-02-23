@@ -114,7 +114,7 @@ begin
               end;
 
           if (i=long) and (raiz^.FDP = False) then bool:=False
-          else bool:=False
+          else bool:=True;
     end;
     BuscarPalabra:=bool;
 end;

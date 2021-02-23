@@ -20,11 +20,11 @@ type
     procedure crearNodo(FDPaux:boolean;var nodo:TPnodo);
     procedure destruirNodo(FDPaux:boolean;var nodo:TPnodo);
     procedure inicializarTrie(var raiz:TTrie);
+    function calcularIndice(letra:char):integer;
     procedure InsertarPalabra(palabra:String;raiz:TTrie);
     function BuscarPalabra(palabra:String;raiz:TTrie):Boolean;
     procedure eliminarPalabra(palabra:string;raiz:TTrie);
 
-var diccionario2:Text;
 implementation
 
 procedure crearNodo(FDPaux:boolean;var nodo:TPnodo);
@@ -58,7 +58,18 @@ begin
       end;
 end;
 
+function calcularIndice(letra:char):integer;
+//calcula la posicion de la letra en el arreglo TLetras
+begin
 
+    if letra = 'ñ' then calcularIndice:=15
+    else
+    begin
+        if (Ord(letra)-96) < 15 then calcularIndice:=Ord(letra)-96
+        else calcularIndice:=(Ord(letra)-96)+1;
+    end;
+
+end;
 
 procedure InsertarPalabra(palabra:String;raiz:TTrie);
 var i,long,pos:Integer;
@@ -69,8 +80,9 @@ begin
 
     for i:=1 to long do
         begin
-            if palabra[i] = 'ñ' then pos:=27
-            else pos:= Ord(palabra[i])-96;
+            { if palabra[i] = 'ñ' then pos:=27
+            else pos:= Ord(palabra[i])-96;     }
+            pos:=calcularIndice(palabra[i]);
 
             if i = long then FDPaux:=True
             else FDPaux:=False;
@@ -104,8 +116,9 @@ begin
 
     for i:=1 to long do
     begin
-         if palabra[i] = 'ñ' then indice:=27
-         else indice:=ord(palabra[i])-96;
+         {if palabra[i] = 'ñ' then indice:=27
+         else indice:=ord(palabra[i])-96;}
+         indice:=calcularIndice(palabra[i]);
 
           if(raiz^.hijos[indice] = nil)  then bool:=False
           else
@@ -137,9 +150,10 @@ begin
     // Este bucle lleva la raiz a la ultima letra
     for i:=1 to long do
     begin
-        if palabra[i] = 'ñ' then indice:=27
-        else indice:=ord(palabra[i])-96;
+        {if palabra[i] = 'ñ' then indice:=27
+        else indice:=ord(palabra[i])-96;}
 
+        indice:=calcularIndice(palabra[i]);
         raiz:=raiz^.hijos[indice];
     end;
 

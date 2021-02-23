@@ -11,6 +11,7 @@ casamiento
 casa
 dado
 deporte
+diccionario
 electricidad
 electrico
 electronica
@@ -25,6 +26,8 @@ hielo
 hilo
 holanda
 holandesa
+holandes
+hola
 iglu
 iguana
 isla
@@ -36,6 +39,7 @@ juzgado
 koala
 lago
 laguna
+locomocion
 locomotora
 loco
 masa
@@ -43,6 +47,7 @@ mesa
 nacional
 nacion
 nariz
+ñandu
 operacion
 oracion
 oso
@@ -74,5 +79,3 @@ yoyo
 zorra
 zorros
 zorro
-holandes
-hola

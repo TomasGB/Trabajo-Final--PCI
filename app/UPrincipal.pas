@@ -49,12 +49,22 @@ var
   raiz:TTrie;
   lista,lista2:Tstringlist;
   ultimaPalabra, frase:string;
-  diccionario,diccionario2:TextFile;
+  diccionario:TextFile;
 
 
 implementation
 
 {$R *.dfm}
+
+function calcularLetra(indice:integer):string;
+begin
+    if indice = 15 then calcularLetra:='ñ'
+    else
+    begin
+        if indice < 15 then calcularLetra:=chr(ord(indice+96))
+        else if indice > 15 then calcularLetra:=chr(indice+96-1);
+    end;
+end;
 
 procedure MostrarTrie(pref:string;raiz:TTrie;ListBox:TListBox);
 {
@@ -64,16 +74,15 @@ procedure MostrarTrie(pref:string;raiz:TTrie;ListBox:TListBox);
 }
 var i:integer;
     p:String;
-    letra:char;
+    letra:string;
 
 begin
     for i:=1 to letras do
     begin
         if raiz^.hijos[i] <> nil then
         begin
-            if i=27 then letra:='ñ'
-            else letra:=chr(ord(i+96));
 
+            letra:=calcularLetra(i);
             p:=pref+letra;
             MostrarTrie(p,raiz^.hijos[i],ListBox);
 
@@ -86,6 +95,7 @@ begin
         end
         else ;
     end;
+
 end;
 
 procedure BuscarPorPref(pref:string;raiz:TTrie;ListBox:TListBox);
@@ -107,9 +117,7 @@ begin
     begin
         //255 es el ASCII de espacio
         if (ord(pref[i])= 255) then
-        else
-            if pref[i]='ñ' then pos := 27
-            else pos:=ord(pref[i])-96;
+        else pos:=calcularIndice(pref[i]);
 
         if raiz^.hijos[pos] = nil then
             begin
@@ -117,8 +125,11 @@ begin
             end
         else
         begin
-            if pref[i] = 'ñ' then raiz:=raiz^.hijos[27]
-            else raiz:=raiz^.hijos[ord(pref[i])-96];
+
+            if pref[i] = 'ñ' then raiz:=raiz^.hijos[15]
+            else
+                if calcularIndice(pref[i]) <15 then raiz:=raiz^.hijos[ord(pref[i])-96]
+                else raiz:=raiz^.hijos[ord(pref[i])-96+1];
         end;
     end;
 
@@ -208,12 +219,49 @@ begin
 
 end;
 
+////////////////////////////////////////////////////////////////////////////////
+procedure actualizarDiccionario(pref:string;raiz:TTrie);
+var i:integer;
+    p:String;
+    letra:string;
+
+begin
+    for i:=1 to letras do
+    begin
+        if raiz^.hijos[i] <> nil then
+        begin
+
+            letra:=calcularLetra(i);
+
+            p:=pref+letra;
+            actualizarDiccionario(p,raiz^.hijos[i]);
+
+            if (raiz^.hijos[i].FDP = true) then
+            begin
+                append(diccionario);
+                WriteLn(diccionario,p);
+                CloseFile(diccionario);
+            end;
+        end
+        else ;
+    end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
 procedure agregarEnDiccionario(palabra:string;var diccionario:Text);
 begin
     assign(diccionario,'diccionario.txt' );
     append(diccionario);
     writeLn(diccionario,palabra);
     close(diccionario);
+
+    //Actualizacion del archivo diccionario.txt
+    rewrite(diccionario,'diccionario.txt');
+    append(diccionario);
+    WriteLn(diccionario,'');
+    CloseFile(diccionario);
+    actualizarDiccionario('',raiz);
 end;
 
 procedure TForm1.btnAgregarAlDiccionarioClick(Sender: TObject);
@@ -231,7 +279,7 @@ begin
     else
         begin
             InsertarPalabra(ultimaPalabra,raiz);
-            agregarEnDiccionario(UTF8Encode(ultimaPalabra),diccionario);
+            agregarEnDiccionario({UTF8Encode(}ultimaPalabra{)},diccionario);
         end;
 end;
 
@@ -246,7 +294,7 @@ begin
     else
         begin
             InsertarPalabra(ultimaPalabra,raiz);
-            agregarEnDiccionario(UTF8Encode(ultimaPalabra),diccionario);
+            agregarEnDiccionario({UTF8Encode(}ultimaPalabra{)},diccionario);
         end;
 
 end;
@@ -262,7 +310,7 @@ Lista.LoadFromFile('diccionario.txt');
 
 for i:=1 to lista.count-1 do
 begin
-    InsertarPalabra(Utf8Decode(Lista.Strings[i]),raiz);
+    InsertarPalabra({Utf8Decode(}Lista.Strings[i]{)},raiz);
 end;
 
 end;
@@ -285,7 +333,7 @@ begin
     //Lista.Sort;
     for i:=1 to lista.count-1 do
     begin
-        listbox.items.Append(UTF8Decode(Lista.Strings[i]));
+        listbox.items.Append({UTF8Decode(}Lista.Strings[i]{)});
         //p:=UTF8Decode(Lista.Strings[i]);
         //listbox.items.Append(inttostr(ord(p[1])));
     end;
@@ -330,7 +378,7 @@ end;
 
 procedure TForm1.ButtonEnviar1Click(Sender: TObject);
 begin
-memo1.lines.add(' Usuario 1: '+edit1.text);
+memo1.lines.add(' '+formatdatetime('t', now)+'  Usuario 1: '+edit1.text);
 memo1.lines.add('');
 listBox1.Clear;
 edit1.Clear;
@@ -338,41 +386,14 @@ end;
 
 procedure TForm1.ButtonEnviar2Click(Sender: TObject);
 begin
-memo1.lines.add(' Usuario 2: '+edit2.text);
+
+memo1.lines.add(' '+formatdatetime('t', now)+'  Usuario 2: '+edit2.text);
 memo1.lines.add('');
 listBox2.Clear;
 edit2.Clear;
 end;
 
-////////////////////////////////////////////////////////////////////////////////
-procedure actualizarDiccionario(pref:string;raiz:TTrie);
-var i:integer;
-    p:String;
-    letra:char;
 
-begin
-    for i:=1 to letras do
-    begin
-        if raiz^.hijos[i] <> nil then
-        begin
-            if i=27 then letra:='ñ'
-            else letra:=chr(ord(i+96));
-
-            p:=pref+letra;
-            actualizarDiccionario(p,raiz^.hijos[i]);
-
-            if (raiz^.hijos[i].FDP = true) then
-            begin
-                append(diccionario);
-                WriteLn(diccionario,p);
-                CloseFile(diccionario);
-            end;
-        end
-        else ;
-    end;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
 
 procedure TForm1.ButtonEliminarClick(Sender: TObject);
 begin

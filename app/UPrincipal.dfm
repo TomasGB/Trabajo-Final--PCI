@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 162
-  Top = 60
+  Left = 276
+  Top = 54
   Width = 1113
   Height = 635
   Caption = 'Form1'
@@ -80,7 +80,6 @@ object Form1: TForm1
     ScrollBars = ssVertical
     ShowHint = False
     TabOrder = 1
-    WordWrap = False
   end
   object btnMostrarDiccionario: TButton
     Left = 848
@@ -124,7 +123,6 @@ object Form1: TForm1
     Font.Style = []
     ItemHeight = 20
     ParentFont = False
-    Sorted = True
     TabOrder = 5
     OnClick = ListBox1Click
   end
