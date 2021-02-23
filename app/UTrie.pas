@@ -80,8 +80,7 @@ begin
 
     for i:=1 to long do
         begin
-            { if palabra[i] = 'ñ' then pos:=27
-            else pos:= Ord(palabra[i])-96;     }
+
             pos:=calcularIndice(palabra[i]);
 
             if i = long then FDPaux:=True
@@ -116,75 +115,59 @@ begin
 
     for i:=1 to long do
     begin
-         {if palabra[i] = 'ñ' then indice:=27
-         else indice:=ord(palabra[i])-96;}
          indice:=calcularIndice(palabra[i]);
 
           if(raiz^.hijos[indice] = nil)  then bool:=False
           else
               begin
-                    raiz:=raiz^.hijos[indice];
+              raiz:=raiz^.hijos[indice];
+                    if (i=long) and (raiz.FDP = False) then bool:=False
+                    else bool:=True;
+
               end;
 
-          if (i=long) and (raiz^.FDP = False) then bool:=False
-          else bool:=True;
+
     end;
     BuscarPalabra:=bool;
 end;
 
 procedure eliminarPalabra(palabra:string;raiz:TTrie);
-var i,j,k,l,long,indice:Integer;
-    masPalabras, nodosHermanos:Boolean;
-    raizOriginal:TTrie;
-    nuevaPalabra:string;
+var i,j,k,long,indice:Integer;
+    masPalabras:Boolean;
 
 begin
-    raizOriginal:=raiz;
     long:=Length(palabra);
     masPalabras:=False;
-    nodosHermanos:=False;
     j:=1;
-    k:=1;
-    nuevaPalabra:='';
+    k:=long;
 
     // Este bucle lleva la raiz a la ultima letra
     for i:=1 to long do
     begin
-        {if palabra[i] = 'ñ' then indice:=27
-        else indice:=ord(palabra[i])-96;}
-
         indice:=calcularIndice(palabra[i]);
         raiz:=raiz^.hijos[indice];
     end;
 
-    // Checkea si es raiz de una palabra mas larga
-    while (masPalabras=False) and (j<=Letras) do
+    while (k>=1) do
     begin
-        if raiz^.hijos[j] <> Nil then
+
+        // Checkea si el nodo de la ultima letra tiene hijos
+        while masPalabras = False do
         begin
-            masPalabras:=True;
-            raiz^.FDP:=False;
+            if raiz^.hijos[j] <> Nil  then masPalabras:=False
+            else
+                begin
+                    raiz.FDP:=False;
+                    masPalabras:=True;
+                end;
+            j:=j+1;
         end;
-        j:=j+1;
+
+        if masPalabras = False then destruirNodo(False,raiz);
+
+       k:=k-1;
     end;
 
-    // Checkea si hay nodos hermanos
-    while (nodosHermanos=False) and (k<=Letras)do
-    begin
-        if raiz.hijos[k]<>Nil then nodosHermanos:=True;
-        k:=k+1;
     end;
-
-    // Si no era raiz de otra palabra y no habia nodos hermanos, destruye el nodo.
-    if (masPalabras = False) and (masPalabras=False) then destruirNodo(False, raiz);
-
-    for l:=1 to (long-1) do
-    begin
-        nuevaPalabra:=nuevaPalabra+palabra[l];
-    end;
-    if nuevaPalabra <> '' then eliminarPalabra(nuevaPalabra,raizOriginal);
-
-end;
-
 
 end.
