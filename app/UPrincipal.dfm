@@ -1,9 +1,9 @@
 object Form1: TForm1
-  Left = 159
-  Top = 79
+  Left = 138
+  Top = 64
   Width = 1113
   Height = 599
-  Caption = 'Form1'
+  Caption = 'Aplicaci'#243'n de teclado predictivo'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

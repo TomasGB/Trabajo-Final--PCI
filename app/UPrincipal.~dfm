@@ -1,8 +1,8 @@
 object Form1: TForm1
-  Left = 112
-  Top = 35
+  Left = 159
+  Top = 79
   Width = 1113
-  Height = 635
+  Height = 599
   Caption = 'Form1'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -63,10 +63,10 @@ object Form1: TForm1
     TabOrder = 0
   end
   object Memo1: TMemo
-    Left = 688
+    Left = 680
     Top = 24
     Width = 409
-    Height = 465
+    Height = 417
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16
@@ -82,8 +82,8 @@ object Form1: TForm1
     TabOrder = 1
   end
   object btnMostrarDiccionario: TButton
-    Left = 848
-    Top = 496
+    Left = 832
+    Top = 448
     Width = 89
     Height = 41
     Caption = 'Mostrar diccionario'
@@ -92,8 +92,8 @@ object Form1: TForm1
     OnClick = btnMostrarDiccionarioClick
   end
   object btnAgregarAlDiccionario: TButton
-    Left = 960
-    Top = 496
+    Left = 944
+    Top = 448
     Width = 89
     Height = 41
     Caption = 'Agregar al diccionario'
@@ -102,8 +102,8 @@ object Form1: TForm1
     OnClick = btnAgregarAlDiccionarioClick
   end
   object BtnClear: TButton
-    Left = 736
-    Top = 496
+    Left = 720
+    Top = 448
     Width = 91
     Height = 41
     Caption = 'Clear'
@@ -168,32 +168,45 @@ object Form1: TForm1
   end
   object Edit3: TEdit
     Left = 8
-    Top = 538
+    Top = 522
     Width = 145
     Height = 21
     TabOrder = 10
   end
   object ButtonEliminar: TButton
     Left = 168
-    Top = 538
+    Top = 522
     Width = 153
     Height = 25
     Caption = 'Eliminar palabra'
     TabOrder = 11
     OnClick = ButtonEliminarClick
   end
+  object ButtonGuardarChat: TButton
+    Left = 720
+    Top = 496
+    Width = 89
+    Height = 41
+    Caption = 'Guardar Chat'
+    TabOrder = 12
+    OnClick = ButtonGuardarChatClick
+  end
   object Timer1: TTimer
     OnTimer = Timer1Timer
-    Left = 824
-    Top = 552
+    Left = 832
+    Top = 504
   end
   object OpenDialog1: TOpenDialog
-    Left = 904
-    Top = 552
+    Left = 912
+    Top = 504
   end
   object Timer2: TTimer
     OnTimer = Timer2Timer
-    Left = 864
-    Top = 552
+    Left = 872
+    Top = 504
+  end
+  object SaveDialog1: TSaveDialog
+    Left = 952
+    Top = 504
   end
 end
