@@ -151,7 +151,7 @@ begin
     while (k>=1) do
     begin
 
-        // Checkea si el nodo de la ultima letra tiene hijos
+        // controla si el nodo de la ultima letra tiene hijos
         while masPalabras = False do
         begin
             if raiz^.hijos[j] <> Nil  then masPalabras:=True

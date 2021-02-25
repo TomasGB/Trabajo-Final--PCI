@@ -154,11 +154,10 @@ begin
         // Checkea si el nodo de la ultima letra tiene hijos
         while masPalabras = False do
         begin
-            if raiz^.hijos[j] <> Nil  then masPalabras:=False
+            if raiz^.hijos[j] <> Nil  then masPalabras:=True
             else
                 begin
                     raiz.FDP:=False;
-                    masPalabras:=True;
                 end;
             j:=j+1;
         end;
