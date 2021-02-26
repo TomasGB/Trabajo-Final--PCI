@@ -88,7 +88,6 @@ begin
             letra:=calcularLetra(i);
             p:=pref+letra;
 
-
             if (raiz^.hijos[i].FDP = true) then
             begin
                 ListBox.Items.BeginUpdate;
@@ -123,13 +122,9 @@ begin
         if (ord(pref[i])= 255) then
         else pos:=calcularIndice(pref[i]);
 
-        if raiz^.hijos[pos] = nil then
-            begin
-                check:=False;
-            end
+        if raiz^.hijos[pos] = nil then check:=False
         else
         begin
-
             if pref[i] = 'ñ' then raiz:=raiz^.hijos[15]
             else
                 if calcularIndice(pref[i]) <15 then raiz:=raiz^.hijos[ord(pref[i])-96]
@@ -146,7 +141,7 @@ procedure parsearUltimaPalabra(palabras:string;raiz:TTrie; var ultimaPalabra, fr
 {
     Este procedimiento se encarga de recorrer el string que ingresa el usuario,
     separando las palabras por espacios y retornando la ultima en la variable
-    'ultimaPalabra'.
+    'ultimaPalabra' y el resto en 'frase'.
 }
 var i:integer;
     esUltimaPalabra:boolean;
@@ -167,7 +162,7 @@ begin
         end;
 
     if (palabras[i]<> ' ') and (i <> length(palabras)) then
-    //Esta condicion checkea si hay mas de una palabra en el string.
+    //Esta condicion controla si hay mas de una palabra en el string.
         begin
             esUltimaPalabra:=False;
             frase:=frase+ultimaPalabra;
@@ -236,9 +231,7 @@ begin
         begin
 
             letra:=calcularLetra(i);
-
             p:=pref+letra;
-
 
             if (raiz^.hijos[i].FDP = true) then
             begin
@@ -272,7 +265,7 @@ procedure TForm1.btnAgregarAlDiccionarioClick(Sender: TObject);
 var esta:boolean;
 begin
 
-//mira si hay el edit1 esta vacio o no
+//controla si hay el edit1 esta vacio o no
 if (edit1.text = '') or (edit1.text = ' ') then
 else
 begin
@@ -287,7 +280,7 @@ begin
         end;
 end;
 
-//mira si hay el edit2 esta vacio o no
+//controla si hay el edit2 esta vacio o no
 if (edit2.text = '') or (edit2.text = ' ') then
 else
 begin
