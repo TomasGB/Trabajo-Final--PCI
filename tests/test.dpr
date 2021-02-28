@@ -102,6 +102,7 @@ var i,long,indice:integer;
 begin
     long:=Length(palabra);
     bool:=True;
+
     for i:=1 to long do
     begin
           indice:=calcularIndice(palabra[i]);
@@ -137,7 +138,7 @@ begin
     while (k>=1) do
     begin
 
-        // Checkea si el nodo de la ultima letra tiene hijos
+        // controla si el nodo de la ultima letra tiene hijos
         while masPalabras = False do
         begin
             if raiz^.hijos[j] <> Nil  then masPalabras:=True
@@ -183,7 +184,6 @@ begin
             begin
                 Write(p,'  ');
                 writeln('');
-
             end;
             MostrarTrie(p,raiz^.hijos[i]);
         end
@@ -198,9 +198,10 @@ var long,i,pos:integer;
 begin
     long:= length(pref);
     check:=True;
+
     for i:=1 to long do
     begin
-
+        // 255 es el ASCII de espacio
         if (ord(pref[i])=255) then
         else pos:=calcularIndice(pref[i]);
 
@@ -238,7 +239,7 @@ begin
         end;
 
     if (palabras[i]<> ' ') and (i <> length(palabras)) then
-    //Esta condicion checkea si hay mas de una palabra en el string.
+    //Esta condicion controla si hay mas de una palabra en el string.
     begin
         esUltimaPalabra:=False;
         frase:=frase+ultimaPalabra;
@@ -333,12 +334,14 @@ writeln('Resultado esperado: FALSE');
 writeln('');
 writeln('-------------------------------------------------------');
 writeln('Test procedimiento mostrarTrie:');
+writeln('');
 writeln('resultado esperado: hola, holanda, holandes, pero, perro, perra, perrera');
 writeln('');
 mostrarTrie('',r);
 writeln('-------------------------------------------------------');
 writeln('');
 writeln('Test procedimiento BuscarPorPref');
+writeln('');
 writeln('Palabras con el prefijo ( ho ) ');
 writeln('resultado esperado: hola, holanda, holandes');
 writeln('');
@@ -361,7 +364,7 @@ BuscarPorPref('ar',r);
 writeln('');
 writeln('-------------------------------------------------------');
 writeln('');
-writeln('Test procedimiento buscarUltimaPalabra');
+writeln('Test procedimiento parsearUltimaPalabra');
 writeln('');
 writeln('Texto ingresado: ''prueba ultima palabra''');
 writeln('Resultado esperado: palabra');
