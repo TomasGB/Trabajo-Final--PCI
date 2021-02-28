@@ -50,7 +50,7 @@ type
 var
   Form1: TForm1;
   raiz:TTrie;
-  lista,lista2:Tstringlist;
+  lista:Tstringlist;
   ultimaPalabra, frase:string;
   diccionario,Chat:TextFile;
 

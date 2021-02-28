@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 152
-  Top = 42
+  Left = 161
+  Top = 168
   Width = 1113
   Height = 599
   Caption = 'Aplicaci'#243'n de teclado predictivo'

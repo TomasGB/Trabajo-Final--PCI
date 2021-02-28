@@ -1,10 +1,9 @@
-program autocompletar;
+program chat;
 
 uses
   Forms,
   UPrincipal in 'UPrincipal.pas' {Form1},
-  UTrie in 'UTrie.pas',
-  UNodo in 'UNodo.pas',
+  UTrie in 'UTrie.pas';
 
 
 {$R *.res}
