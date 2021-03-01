@@ -52,7 +52,7 @@ var
   raiz:TTrie;
   lista:Tstringlist;
   ultimaPalabra, frase:string;
-  diccionario,Chat:TextFile;
+  diccionario:TextFile;
 
 
 implementation
@@ -246,7 +246,7 @@ begin
 end;
 
 
-procedure agregarEnDiccionario(palabra:string;var diccionario:Text);
+procedure agregarEnDiccionario(palabra:string;var diccionario:TextFile);
 begin
     assign(diccionario,'diccionario.txt' );
     append(diccionario);
@@ -317,6 +317,7 @@ procedure TForm1.FormCreate(Sender: TObject);
 begin
     memo1.Clear;
     ListBox1.Clear;
+    ListBox2.Clear;
     inicializarTrie(raiz);
     CargarDiccionario(lista,raiz);
 end;
@@ -348,6 +349,7 @@ begin
     listbox2.Clear;
     edit1.Clear;
     edit2.Clear;
+    edit3.Clear;
 end;
 
 

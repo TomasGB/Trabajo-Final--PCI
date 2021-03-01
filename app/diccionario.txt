@@ -10,6 +10,7 @@ bar
 casa
 casamiento
 dado
+dedal
 deporte
 diccionario
 electricidad
